@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>a</title>
+    <link rel="stylesheet" href="./animate.css">
+</head>
+<body>
+    <div class="skyscrapper">
+        <!-- 快捷键.box#box$*3 +tab-->
+        <div class="box" id="box_a"></div>
+        <div class="box" id="box_b"></div>
+        <div class="box" id="box_c"></div>
+    </div>
+    <script src="./gasp.min.js"></script>
+    <!-- id不同无效果 要封装 animate.js-->
+    <script src="./animate.js"></script>
+    <script>
+     // new Animation封装的类,让它实现
+    //  new Animation(['#box_a','#box_b','#box_c'])
+
+    var skyObj={
+        leftAnimated:['#box_a','#box_c'],
+        rightAnimated:['#box_b']
+    }
+    new Animation(skyObj)
+    </script>
+</body>
+</html>

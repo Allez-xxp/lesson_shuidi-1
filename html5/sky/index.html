@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    html, body{
+	    height: 100%;
+	}
+	body{
+	    background: white;
+	    margin: 0%;
+	    padding: 0%;
+	    position: relative;
+	}
+	img{
+      width: 100px;
+      height: 55px;
+	    position: absolute;
+	    left: 5%;
+	    top: 10px;
+	    /* margin-left: -50px; */
+	    /* margin-top: -28px; */
+	}
+    </style>
+</head>
+<body>
+    <img src="shuttle.jpg" alt="" id="shuttle">
+    <script src="./gasp.min.js"></script>
+    <script>
+    var shuttle=document.getElementById('shuttle');
+    //Tween （10~12岁的少年）js的效果库 动效 TweenMax最大化动效设置(来自src="./gasp.min.js")
+    TweenMax.to(shuttle,2,{
+        // top:'50%',
+        // left:250,
+        // delay:0,
+        // ease:Back.easeOut
+
+        left:'100%',
+        scale:.2,//变小，飞远了
+        opacity:0,//透明度为0，飞不见了
+        delay:3,//飞过去还能回来，因为是延迟后执行的
+        //ease加速方式 ease:Back.easeOut//先慢后快加速运动
+        ease:Back.easeOut
+    })//为shuttle用一秒钟做动效
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="fields"></div>
+    <script>    
+        
+    // <!-- 页面端即前端，小程序端，页面只是模板，ejs，数据从哪里来：express；js主动拉取fetch 是ajax的，异步获取远程数据 -->
+    const streetCarsPromise = fetch('http://data.ratp.fr/api/datasets/1.0/search/?q=paris');
+    //第一个.then：等我取数据
+    // .then(response=>response.json())
+    // // 到达的数据，到达的是一个流数据
+    // .then(res =>{
+    //     // console.log(res);
+    //     const fields=res.datasets[0].fields;
+    //     document.getElementById('fields')
+    //     .innerHTML=fields
+    //         .map(field =>`
+    //         <div>
+    //             ${field.type}-${field.name}
+    //         </div>
+    //         `).join('')
+    //         // ``字符串模板符号,里面的代码可以直接引用变量，引用时不用写+，直接用花括号{}
+    // })
+
+    //如何保证两个fetch内容都获取之后才执行后续代码？
+    const postPromise = fetch('https://wesbos.com/wp-json/wp/v2/posts');
+    // Promise.
+    // postPromise
+    //  .then(response =>response.json())
+    //  .then(data =>{
+    //      console.log(data);
+    //  })
+    Promise
+    .all([postPromise,streetCarsPromise])//变成promise数组，再.then
+    .then(responses =>{
+        //console.log(response);得到两个response
+        // 要返回promise才可以继续.then（.then是一个promise类型）
+        // 1.要变成json(),因为此处是文件流数组，不是单纯的文件流 =>json()数组 map
+        // 2.要变成promise数组才能继续.then
+        // 箭头函数有多行时要用return
+        return Promise.all(responses.map(res => res.json()))
+    })
+    .then(responses =>{
+        console.log(responses)
+    })//此时这里的responses是json()数据，是可以直接.then的
+    </script>
+</body>
+</html>

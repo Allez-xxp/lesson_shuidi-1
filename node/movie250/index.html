@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>爬取top250电影</title>
+</head>
+<body>
+  <!-- 做可排序的列表，语义化标签=>有序列表ol li  -->
+    <!-- ol.grid_view>li -->
+    <ol class="grid_view">
+        <li>
+            <!-- 每条项目item -->
+            <div class="item">
+                <!-- 左边是pic右边是info -->
+                <div class="pic">
+                    <!-- 强调作用em -->
+                    <em>1</em>
+                    <a href="movie.douban.com/subject/123">
+                        <!-- alt是有助于一些使用助听器访问网站的人 -->
+                        <img src="" alt="肖洛克的救赎">
+                    </a>
+                </div>
+                <div class="info"></div>
+            </div>
+        </li>
+    </ol>
+    <div class="pagination">
+        <!-- a[href="?start=$"]{$}*10 -->
+        <!-- <a href="?start=0">1</a> &lt是小于号&gt是大于号-->
+        <span class="prev">&lt;前页</span>
+        <span class="thispage">1</span>
+        <a href="?start=25">2</a>
+        <a href="?start=50">3</a>
+        <a href="?start=75">4</a>
+        <a href="?start=100">5</a>
+        <a href="?start=125">6</a>
+        <a href="?start=150">7</a>
+        <a href="?start=175">8</a>
+        <a href="?start=200">9</a>
+        <a href="?start=225">10</a>
+        <span class="next">
+            <a href="?start=25">后页</a>
+        </span>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>饿了么商家</title>
+    <link rel="stylesheet" href="./common.css">
+</head>
+<body>
+<div id="root">
+<!-- 头部 -->
+    <div class="header">
+        <div class="content-wrapper">
+            <div class="avatar">
+                <img width="64" height="64" :src="seller.avatar" alt="" id="avatar">
+            </div>
+        </div>
+    </div>
+    <!-- MVVM -->
+    <!-- <div>{{message}}</div> -->
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    // 页面就不用dom方式了，用vue
+    new Vue({
+        // 声明会先将模板中的内容先编译再输出，响应式编程
+        el:"#root",
+
+        data:{
+            // :src="avatar"冒号表示是动态的 这里的avatar是个属性（vue的)，属性编译就是像:src="avatar"这样
+            // avatar:'http://static.galileo.xiaojukeji.com/static/tms/seller_avatar_256px.jpg',
+            // avatar:'http://b.hiphotos.baidu.com/exp/w=500/sign=c0a4969e942bd40742c7d3fd4b889e9c/728da9773912b31b79d1c59f8518367adbb4e1c3.jpg',
+            // avatar='http://1gif.haha9911.com/upimg/18/0816/180815201829707.gif',
+            // message:'hello word'
+
+            seller:{}
+        },
+        // 页面显示后onLoad
+        // mounted()函数 是个生命周期函数
+        mounted(){
+            // setTimeout(()=>{
+            //     this.avatar='http://1gif.haha9911.com/upimg/18/0816/180815201829707.gif';
+            // },2000)
+            fetch("http://localhost:3000/data")
+            .then(data => data.json())
+            .then(data =>{
+                this.seller=data;
+                // this.setData({
+
+                // })
+                // console.log(data);
+                // document.getElementById('avatar').src=data.avatar
+                // 别的做法？第三种？
+                
+
+            })
+        },
+    })
+    // 现在界面等着数据来喂饱
+// fetch("http://localhost:3000/data")
+// .then(data => data.json())
+// .then(data =>{
+//     // console.log(data);
+//     // document.getElementById('avatar').src=data.avatar
+//     // 别的做法？第三种？
+
+
+// })
+// json化一下,可以变成数据流输出
+</script>
+</body>
+</html>
+<!-- npm i -g stylus -->

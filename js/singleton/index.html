@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>单例模型</title>
+    <style>
+    #modal{
+        height: 200px;
+        width: 200px;
+        /* 文字占的行高 */
+        line-height: 200px;
+        position: fixed;
+        /* 出现弹框时会四个角度全部覆盖,弹全屏 */
+        left: 50%;
+        top: 50%;
+        right: 0;
+        bottom: 0;
+        transform: translate(-50%,-50%);
+        border: 1px solid black;
+        text-align: center;
+        /* background-color: rgba(0,0,0,.3); */
+    }
+    /* 禁用 鼠标手型 */
+    /* #open{
+        cursor: pointer;
+    }
+    #open:disabled{
+        cursor: not-allowed;
+    } */
+    </style>
+</head>
+<body>
+    <button id="open">打开弹框</button>
+    <button id="close">关闭弹框</button>
+    <script>
+        // 立即执行函数 函数后面直接是括号 typeof 返回类型
+        // 立即执行函数外面还有函数：
+        const Modal=(function(){
+            let modal=null;//模态框 闭包区域 无法被回收内存 永远存在（ modal对象 Modal类的）
+            return function(){
+                if(!modal){
+                    //创建一次
+                    modal=document.createElement('div');
+                    modal.innerHTML='我是一个全局的唯一modal';
+                    modal.id='modal';
+                    modal.style.display='none';
+                    document.body.appendChild(modal);
+                }
+                return modal;//Modal作为函数 被运行时返回的
+            }
+            
+        })();
+    document.getElementById('open').addEventListener('click',function(){
+    // 做一个弹窗，让它显示或隐藏
+    // 90%的网站都是不登录的，即一开始的时候不用加载，是点击的时候动态的加载
+    // 创建节点
+    // const modal=document.createElement('div');
+    // modal.innerHTML='我是一个全局的唯一modal';
+    // modal.id="modal";
+    // // 挂载
+
+    // document.body.appendChild(modal);
+    //     // 解决容错时，最开始的方法会使结构中会出现两个弹框，改:禁用一个按钮 但会创建多个同样id的div
+    // this.setAttribute('disabled',"disabled");
+
+    const modal=new Modal();//此时被执行
+    modal.style.display='block';
+    })
+    document.getElementById('close').addEventListener('click',()=>{        
+        // document.getElementById('modal').style.display='none';
+        // 解决一开始就点的关闭弹框,容错
+    //    if (document.getElementById('modal'))
+    //    {
+
+    //        document.body.removeChild(document.getElementById('modal'));
+
+    //     //    document.getElementById('modal').style.display='none'
+    //        document.getElementById('open').removeAttribute('disabled')
+    //    }
+        const modal=new Modal();//永远只会实例化第一次创建的
+        modal.style.display='none';
+    })
+    </script>
+</body>
+</html>

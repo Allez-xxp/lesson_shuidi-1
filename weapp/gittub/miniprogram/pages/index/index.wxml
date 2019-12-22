@@ -1,0 +1,31 @@
+<view class="wrapper page">
+<!-- 登录页 -->
+<view class="main">
+  <view class="log">
+  <image src="../../images/mark-github.svg">
+  </image>
+  </view>
+  <!-- 小程序本身没有tabs组建 
+  https://www.w3cschool.cn/weixinapp/
+  -->
+  <tabs>
+    <tab title="账号密码">
+    <!-- 接受内部向他传递的submit事件
+    动态绑定数据value='{{password}}'
+    formType='submit'点击时触发submit事件，相当于onsubmit事件 -->
+    <form 
+    bindsubmit="commitAccount"    
+    report-submit="{{true}}"
+    class="form">
+    <view>
+      <input name="username" placeholder="输入账号" focus />
+      <input name="password" placeholder="输入密码" password='true' value='{{password}}'/>
+    </view>
+    <button class="login" formType='submit'>登录</button>
+    </form>
+    </tab>
+    <tab title="Token"></tab>
+  </tabs>
+</view>
+</view>
+<!-- <view>123</view> -->

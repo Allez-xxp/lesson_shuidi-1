@@ -3,6 +3,7 @@ const app = new Koa();
 const views=require('koa-views');
 const logger=require('koa-logger');
 const onerror=require('koa-onerror');
+const bodyparser=require('koa-bodyparser')
 
 //中间件式 网站模板  __dirname当前项目的物理路径->网站模板所在位置
 //分层
@@ -11,10 +12,15 @@ const fs=require('fs');
 
 onerror(app);
 // ctx.body响应体
-app.use(ctx=>{
-    ctx.body=fs.createReadStream('dffaf');//先500错误 const fs后才是文件错误
-});
+// app.use(ctx=>{
+//     ctx.body=fs.createReadStream('dffaf');//先500错误 const fs后才是文件错误
+// });
 
+app.use(bodyparser({
+    enableTypes:['json', 'form', 'text']
+}));
+
+app.use(require('koa-static')(__dirname+'/public'));
 app.use(views(__dirname+'/views',{
     extension:'pug'//模板引擎
 }));

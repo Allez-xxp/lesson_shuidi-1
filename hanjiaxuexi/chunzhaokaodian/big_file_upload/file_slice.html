@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" id="file">
+    <script>
+        //请求封装
+        // 两个请求：1.去http并发文件上传 2.当blob通过promise.all判断是否都成功上传完成，再发送一个merge的请求，会以文件夹（yb)的名字下的blob文件都合并成一个yb文件
+        // 第一个请求会带进去二进制流文件chunk,地址默认是做/post请求,第二个是/merge
+        function request({ //request请求封装返回一个Promise，然后就可以promise.all,用promise封装一个请求要花时间的东西
+            url,
+            method='POST',
+            data,
+            headers={},
+            requestList //我们要上传的文件列表
+        }) {
+            return new Promise(resolve=>{ //拥有一个resolve能力
+                //重要xhr对象！！是js的ajax对象，通过XML主动发出请求
+                const xhr=new XMLHttpRequest(); //url,发送的数据，请求头信息
+                xhr.open(method,url);//通过open,打开对URL的请求
+                Object.keys(headers).forEach(key=>{
+                    xhr.setRequestHeader(key,headers[key]) //为请求加头信息
+                }) //如果用户传了headers（是个json），他就表示请求之中要把头附带上这个请求
+                xhr.send(data);//你还要不要附带数据呢？如果有数据，在POST时send就是data,如果是get那就是null
+                xhr.onload = e=>{ //添加一个事件监听onload
+                    resolve({
+                        data:e.target.response //服务器端返回的东西交给resolve
+                    })
+                }
+            });
+        }
+        const mergeRequest=async ()=>{
+            await request({
+                url: 'http://localhost:3001/merge',
+                headers:{
+                    "content-type": "application/json"
+                }
+            });
+            alert('上传成功');
+        }
+    document
+        .getElementById('file')
+        .addEventListener('change',async (event)=>{
+            const file=event.target.files[0]; //js是在es6才具有文件对象
+            console.log(file);
+            const file_name=file.name.split('.')[0];
+
+            // console.log(Object.prototype.toString.call(file));//接用toString看下file对象到底是什么
+            // [object File]这个就是我们现在要处理的类型，是个文件类型
+            // console.log(file.slice(0,102400));//file自带的方法,我们先切100kb出来
+            // 得到Blob {size: 102400, type: ""}
+            // console.log(Object.prototype.toString.call(file.slice(0,102400)));
+            //之前是整个文件类型具体是多少，现在是切完了之后看是多少： [object Blob]
+            // 开始切：
+            let cur=0,size=0.5*1024*1024;//1M
+            const fileChunkList=[];//切完之后每个都是一个blob对象(等待上传的对象),用promiss做一个异步封装(ajax)，上传完了之后拼装，这些对象先放在这个数组中，然后封装
+            // Chunk块的意思，文件块
+            while(cur<file.size){
+                fileChunkList.push({ //添加我们切的那一块
+                    // cur开始到offsize结束 存成json对象，用file作为key
+                    file:file.slice(cur,cur+size)
+                });
+                cur +=size;
+            }
+            // console.log(fileChunkList);//Array(7)
+            //将三个切片发送请求：
+            const requestList=fileChunkList
+            .map(({file},index)=>{ //拿到数组中每一项及其下标，index等下可以用来构建每个文件的名字后面的序号
+                const formData=new FormData();//在使用js post form的时候一般都用这个formData就可以往里面添加我们想要传输的表单数据
+                formData.append("chunk",file); //文件名为chunk
+                formData.append("filename",`${file_name}-${index}`); //设置存储的文件的名字
+                return{
+                    formData
+                }; //在map里面return就会把数组改变成一个新的格式
+            })
+            // console.log(requestList);//可以看到数据每一项都是formData
+            .map(async ({formData}) => request({ //把每一项的formData解构出来，调用刚刚封装的request函数
+                url: 'http://localhost:3000', //前后端的api点，后端在3000端口去试图接受blob，后面再做后端能够跨域接受blob
+                data:formData //我们前面使用的是fromData提交的表单
+            }))
+            await Promise.all(requestList);//并发吧。。。可以向服务器端发送请求了 记得把函数改成async
+
+            await mergeRequest(); //请求合并
+        })
+    </script>
+</body>
+</html>

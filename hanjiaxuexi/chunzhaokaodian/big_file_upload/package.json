@@ -1,0 +1,15 @@
+{
+  "name": "big_file_upload",
+  "version": "1.0.0",
+  "description": "【字节跳动面试官：请你实现一个大文件上传和断点续传】\r https://juejin.im/post/5dff8a26e51d4558105420ed\r 分析作者为什么出这个题？\r 文件上传是开发中的难点，大文件上传及断点续传更是难点中的细节及核心技术点。\r 面试官在考察es6文件对象，ajax上传，async await promise、后台文件存储、流操作等全面的全栈技能的同时提升难度到大文件和断点续传，通过这个主题就可以较好地考察面试者全面解决问题的能力和技术细节。移动时代，图片成为社交主流，短视频时代铁定是大文件，所以在上岗后这个题的知识点是必须掌握清楚的。所以这是一道非常实在的好考题。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.2"
+  }
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 当一个应用在运行时，它的本质就是拥有了CPU运行的权力，它分配我们的资源调度比如我们打开一个应用程序就是启动一个进程，一个进程无法访问另外一个进程的这样的一个数据结构
+        //进程是资源分配的最小单元
+        // 什么是单线程呢？进程是线程的容器，当进程启动后会有一个独立的进程号，线程是CPU计算的最小单元(基于操作系统的概念)
+        //进程启动的是这个页面，这个js得以运行，一个进程是一个容器，并不负责计算，就只负责资源，就把这个代码拖到内存中进行编译，此时进程会启动一个线程，把可以执行的代码拿到CPU中，获得运行的时间机会，CPU是轮循的，这个进程完成后就进行下一个
+        //单线程的意思就是一个进程只产生一个线程
+        var a=1,b=2,c=a+b;//其实CPU进行的就是计算
+        //对于多进程子进程的源头
+        const xhr=new XMLHttpRequest();//js主动向服务器端发送请求，返回数据，但是因为js代码是单线程不会等到它拿完数据之后，除非他是同步的(阻塞的)
+        xhr.open('GET','http://localhost:1234');
+        xhr.send();
+        // xhr是什么？添加一个server目录
+        xhr.onload=(e) =>{ //事件监听 单线程的js通过事件机制异步机制来实现性能上的优化
+            console.log(e.target.response);
+        }
+        //如果后面的代码是UI主要渲染的话，hello就会比较晚输出到页面
+        // 这个就是单线程结合event事件机制，及event loop之后可以实现的一个性能的优化，
+        console.log('hello');//一个进程可以有多个线程有的负责UI的渲染，有的负责其他的，但在js里只能有一个线程主要就是为了UI界面
+
+    </script>
+</body>
+</html>

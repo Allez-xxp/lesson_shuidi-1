@@ -51,4 +51,71 @@
             }
         }
     }
+    .swiper{
+        width: 100%;
+        height: 417rpx;
+        margin-top: 80rpx;
+        // less中的继承
+        &-container{
+            width: 100%;
+            height: 100%;
+            .swiper-item{
+                width: 100%;
+                height: 100%;
+                .silder-image{
+                    width: 100%;
+                }
+            }
+        }
+    }
+    .channel{
+        display: flex; //所有的容器都会去同一行
+        padding: 20rpx 0;
+        background-color: #fff;
+        div{
+            flex:1; //五个就会平等的继承父容器的宽度1:1的比例
+            text-align: center;//文字居中
+            img{
+                height: 58rpx;
+                width: 58rpx;
+                display: inline-block;
+            }
+        }
+    }
+    .brand{
+        width: 100%;
+        margin-top: 20rpx;
+        background-color: #fff;
+        .head{
+            text-align: center;
+            padding: 40rpx 0;            
+        }
+        .content{
+            width: 730rpx;
+            margin: 0 auto;
+            display: flex; //弹性布局
+            justify-content: space-between; //中间留出空隙
+            flex-wrap: wrap;
+            div{
+                width: 360rpx; //写死了的单位也会根据手机屏幕自适应，因为是rpx
+                height: 235rpx;
+                margin-bottom: 10rpx;
+                position: relative;//为了让里面的div作绝对定位
+                div{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    padding: 10rpx;
+                    .price{
+                        font-size: 24rpx;
+                    }
+                }
+                img{
+                    width: 100%;
+                    height: 100%;
+                    // 想要图片变成背景图样的填充，所以宽高要100%
+                }
+            }
+        }
+    }
 }

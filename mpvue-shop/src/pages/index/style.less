@@ -95,7 +95,7 @@
             margin: 0 auto;
             display: flex; //弹性布局
             justify-content: space-between; //中间留出空隙
-            flex-wrap: wrap;
+            flex-wrap: wrap; //规定灵活的项目在必要的时候拆行或拆列
             div{
                 width: 360rpx; //写死了的单位也会根据手机屏幕自适应，因为是rpx
                 height: 235rpx;
@@ -115,6 +115,249 @@
                     height: 100%;
                     // 想要图片变成背景图样的填充，所以宽高要100%
                 }
+            }
+        }
+    }
+    .newgoods{
+        width: 100%;
+        &-top{
+            margin-top: 20rpx;
+            height: 260rpx;
+            width: 100%;
+            background: url('../../../static/images/bgnew.jpg') no-repeat;
+            background-size: 100% 100%;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;//X Y轴都居中
+            .top{
+                p{
+                    color:#8c9bae;
+                    font-size: 32rpx;
+                }
+                p:nth-child(2) {
+                    width: 180rpx;
+                    height: 50rpx;
+                    line-height: 50rpx;
+                    margin: 27rpx auto 0 auto;
+                    font-size: 22rpx;
+                    background: #d8e4f0;
+                }
+            }            
+        }
+        .list{
+            margin-top: 20rpx;
+            background-color: #fff;
+            padding-bottom: 10rpx;
+            ul{
+                .scroll-view{
+                   width: 100%;
+                   white-space: nowrap; //不换行展示
+
+                   li{
+                       width: 280rpx;
+                       height: 416rpx;
+                       margin: 5rpx 0 5rpx 25rpx;
+                       display: inline-block;
+
+                       img{
+                           width: 280rpx;
+                           height: 280rpx;                               
+                       }
+                       p{
+                           width: 94%;
+                           overflow: hidden;
+                           white-space: nowrap;
+                           text-overflow: ellipsis;
+                           margin-top: 8rpx;
+                           text-indent: 1em; //首行缩进
+                       }
+                       p:nth-child(2){ //第2个p标签
+                           font-size: 30rpx;
+                           font-weight: bold;
+                       }
+                       p:nth-child(3){ //第3个p标签
+                            font-size: 24rpx;
+                            color: #8a8a8a;                             
+                       }
+                       p:nth-child(4){ //第4个p标签
+                        font-size: 24rpx;
+                        color: #9c3232;
+                       }
+                   }
+               } 
+            }
+        }
+    }
+    .hotgoods{
+        .newgoods-top{
+            background: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1581431630102&di=0b43656381415529c979dc584031279a&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F961dab496108d2566ac781b308195b5e1b992a74b971-9RplaT_fw658') no-repeat;
+            background-size: 100% 100%; 
+            .top{
+                p{
+                    color: #b1a279;
+                    font-size: 32rpx;
+                    vertical-align: middle;
+                }
+                p:nth-child(1){
+                    span{
+                        width: 4rpx;
+                        height: 4rpx;
+                        font-size: 14rpx;
+                        display: inline-block;
+                        vertical-align: middle; //拦腰对齐
+                        background-color: #b1a279;
+                    }
+                }
+                p:nth-child(2){
+                    background: #f4e9cb;
+                    font-size: 22rpx;
+                }
+            }
+        }
+    }
+    .topicList{
+        margin-top: 20rpx;
+        background-color: #fff;
+        &-top{
+            text-align: center;
+            padding: 36rpx;
+            vertical-align: middle; //放这个是因为里面还有一个icon
+            .icon{
+                display: inline-block;//然后方便设置宽高
+                width: 32rpx;
+                height: 32rpx;
+                margin-left: 5rpx;
+                background: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1581515829251&di=a8e6d11c01f403ccff91a17d2d2820c5&imgtype=0&src=http%3A%2F%2Fpic.51yuansu.com%2Fpic2%2Fcover%2F00%2F30%2F57%2F5810882db3304_610.jpg') no-repeat;
+                background-size: 100% 100%;
+                vertical-align: middle;//跟文字保持拦腰对齐
+            }
+        }
+        .list{
+            .scroll-view{
+                white-space: nowrap; //文本不换行
+            }
+
+            li{
+                display: inline-block;
+                width: 575rpx;
+                margin-left: 25rpx;
+                img{
+                    display: block;
+                    width: 575rpx;
+                    height: 325rpx;
+                    border-radius: 10rpx;//图片是有圆角的
+                }
+                .btom{
+                    display: flex;//弹性布局
+                    justify-content: space-between;//图片间有间隔
+                    margin-top: 42rpx;
+                    width: 100%;
+                    div:nth-child(1){ //btom里面第一个div
+                        width: 90%;
+                        p{
+                            margin-top: 8rpx;
+                        }
+                        p:nth-child(1){
+                            font-size: 30rpx;
+                            font-weight: bold;
+                        }
+                        p:nth-child(2){
+                            width: 90%;
+                            font-size: 24rpx;
+                            color: #8a8a8a;
+                            overflow: hidden; //超出打点
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+                    }
+                    div:nth-child(2){ //价格的div
+                        margin-top: 8rpx;
+                        color: #9c3232;
+                        font-size: 24rpx;
+                    }
+                }
+            }
+            li:last-child{ //最后一个li
+                margin-right: 25rpx;
+            }
+        }
+    }
+    .newcategory{
+        margin-top: 20rpx;
+        padding: 0 10rpx 25rpx 10rpx;
+
+        .head{
+            padding: 25rpx 0;
+            text-align: center;
+        }
+
+        .sublist{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 730rpx;
+            margin: 0 auto;
+
+            div{
+                width: 360rpx;
+                background: #fff;
+                margin-bottom: 10rpx;
+
+                img{
+                    display: block;
+                    width: 302rpx;
+                    height: 302rpx;
+                    margin: 0 auto;
+                }
+
+                p{
+                    margin-bottom: 5rpx;
+                    text-indent: 1em;
+                }
+
+                p:nth-child(2){
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    width: 98%;
+                }
+                p:nth-child(3){
+                    color:#9c3232;
+                }
+            }
+            .last{
+                display: block;
+                width: 302rpx;
+                height: 302rpx;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+
+                p{
+                    height: 33rpx;
+                    width: 100%;
+                    line-height: 33rpx;
+                    color: #333;
+                    font-size: 33rpx;
+                    text-align: center;
+                }
+
+                .icon{
+                    display: inline-block;
+                    width: 70rpx;
+                    height: 70rpx;
+                    background: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1581515829251&di=a8e6d11c01f403ccff91a17d2d2820c5&imgtype=0&src=http%3A%2F%2Fpic.51yuansu.com%2Fpic2%2Fcover%2F00%2F30%2F57%2F5810882db3304_610.jpg') no-repeat;
+                    background-size: 100% 100%;
+                    margin-top: 60rpx;
+                }
+            }
+
+            div:nth-child(2n){
+                margin-left: 10rpx;
             }
         }
     }

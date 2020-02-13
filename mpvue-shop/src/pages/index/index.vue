@@ -3,7 +3,7 @@
     <!-- 头部搜索 -->
     <div class="search">
       <div @click="toMappage">{{cityName}}</div>
-      <div>
+      <div @click="toSearch">
         <input type="text" placeholder="搜索商品" />
         <span class="icon"></span>
       </div>
@@ -22,7 +22,7 @@
       </swiper>
     </div>
     <div class="channel">
-        <div v-for="(item,index) in channel" :key="index" :@click="categroyList(item.id)"> 
+        <div v-for="(item,index) in channel" :key="index" @click="categroyList(item.id)"> 
           <img :src="item.icon_url" alt="" />
           <p>{{item.name}}</p> 
           <!-- image样式占的位置太大了，去调样式 
@@ -30,17 +30,107 @@
         </div>
     </div>
     <div class="brand">
-      <div class="head">
+      <div class="head" @click="tobrandList">
         品牌制造商直供
       </div>
+      <!-- 加一个点击跳转到品牌直供总页面的单击事件 -->
       <div class="content">
-        <div v-for="(item,index) in brandList" :key="index" @click="branddetail(item.id)" >
+        <!-- 为了只展示四个，我们用表中的is_new来筛选 -->
+        <div v-for="(item,index) in brandList" :key="index" :@click="branddetail(item.id)" >
           <div>
-            <!-- 每一小块 -->
             <p>{{item.name}}</p>
             <p class="price">{{item.floor_price}}元起</p>
           </div>
           <img :src="item.new_pic_url" alt="" >
+        </div>
+      </div>
+    </div>
+    <div class="newgoods">
+      <div class="newgoods-top" @click="goodsList('new')">
+        <div class="top">
+          <!-- p{新品首发} -->
+          <p>新品首发</p>
+          <p>查看全部</p>
+        </div>        
+      </div>
+      <div class="list">
+        <ul>
+          <!-- li要有左右滚动的效果用scroll-view容器,:scroll-x="true"X轴方向上的滚动 -->
+          <scroll-view class="scroll-view" :scroll-x="true">
+            <li v-for="(item,index) in newGoods" :key="index">
+              <img :src="item.list_pic_url" alt="">
+              <p>{{item.name}}</p>
+              <p>{{item.goods_brief}}</p>
+              <p>￥{{item.retail_price}}</p>
+            </li>
+          </scroll-view>
+        </ul>
+      </div>
+    </div>
+    <div class="newgoods hotgoods">
+      <div class="newgoods-top" @click="goodsList('hot')">
+        <div class="top">
+          <!-- p{新品首发} -->
+          <p>
+            人气推荐
+            <span></span>
+            好物精选
+          </p>
+          <p>查看全部</p>
+        </div>        
+      </div>
+      <div class="list">
+        <ul>
+          <!-- li要有左右滚动的效果用scroll-view容器,:scroll-x="true"X轴方向上的滚动 -->
+          <scroll-view class="scroll-view" :scroll-x="true">
+            <li v-for="(item,index) in hotGoods" :key="index">
+              <img :src="item.list_pic_url" alt="">
+              <p>{{item.name}}</p>
+              <p>{{item.goods_brief}}</p>
+              <p>￥{{item.retail_price}}</p>
+            </li>
+          </scroll-view>
+        </ul>
+      </div>
+    </div>
+    <div class="topicList">
+      <div class="topicList-top">
+        专题精选
+        <span class="icon"></span>
+      </div>
+      <div class="list">
+        <ul>
+          <scroll-view class="scroll-view" :scroll-x="true">
+            <li v-for="(item,index) in topicList" :key="index" @click="topicdetail(item.id)">
+              <img :src="item.item_pic_url" alt="">
+              <div class="btom">
+                <div>
+                  <p>{{item.title}}</p>
+                  <p>{{item.subtitle}}</p>
+                </div>
+                <!-- 价格直接做一个定位 -->
+                <div>{{item.price_info}}元起</div>
+              </div>
+            </li>
+          </scroll-view>
+        </ul>
+      </div>
+    </div>
+    <div class="newcategory">
+      <div class="list" v-for="(item,index) in newCategoryList" :key="index">
+        <div class="head">{{item.name}}好物</div>
+        <div class="sublist">
+          <div v-for="(subitem,subindex) in item.goodsList" :key="subindex">
+            <img :src="subitem.list_pic_url" alt="">
+            <p>{{subitem.name}}</p>
+            <p>{{subitem.retail_price}}</p>
+          </div>
+          <div>
+            <div class="last">
+              <p>{{item.name}}好物</p>
+              <span class="icon"></span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -58,7 +148,11 @@ export default {
       // cityName:'南昌'
       banner:[],
       channel:[],
-      brandList:[]
+      brandList:[],
+      newGoods:[],
+      hotGoods:[],
+      topicList:[],
+      newCategoryList:[]
     }
   },
   computed:{ //计算属性
@@ -133,7 +227,16 @@ export default {
       //把拿到的数据给到数据源中的banner[]
       this.banner = data.banner
       this.channel = data.channel
-      this.bandList = data.bandList
+      this.brandList = data.brandList
+      this.newGoods=data.newGoods
+      this.hotGoods=data.hotGoods
+      this.topicList=data.topicList
+      this.newCategoryList=data.newCategoryList
+    },
+    toSearch(){
+      wx.navigateTo({
+        url:'/pages/search/main'
+      })
     },
     categroyList(id){ //有了id才知道具体要跳到哪里
       wx.navigateTo({
@@ -143,6 +246,27 @@ export default {
     branddetail(id){
       wx.navigateTo({
         url:'/pages/branddetail/main?id=' +id
+      })
+    },
+    tobrandList(){
+      wx.navigateTo({
+        url:'/pages/brandList/main'
+      })
+    },
+    goodsList(info){
+      if(info == 'hot'){
+        wx.navigateTo({
+        url:'/pages/newgoods/main?isHot=' +1
+      })
+      }else{
+        wx.navigateTo({
+        url:'/pages/newgoods/main?isNew=' +1
+      })
+      }
+    },
+    topicdetail(id){
+      wx.navigateTo({
+        url:'/pages/topicdetail/main?id=' +id
       })
     }
   }

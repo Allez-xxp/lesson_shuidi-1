@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- MVVM 响应式 数据驱动的界面 -->
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <!-- 样式， 比如布局样式  -->
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <!-- element-ui vue + bootstrap -->
+</head>
+<body>
+    <!-- 这里不使用vue的命令行，使用引入式的bootcdn.cn/vue ，选择vue.min.js,复制<script>标签，在页面上引入-->
+    <!-- vue最新的版本是3.0，使用typescript来编写 -->
+    <!-- 再引入bootstrap,bootcdn.cn/twitter-bootstrap -->
+    <!-- class="col-md-6 col-md-offset-3"居中效果，后面一个是偏移列,从左边先偏移三个再放宽为六列的，总共是12 
+    v-cloak： 防止页面加载时出现 vuejs 的变量名。解决插值闪烁问题 可以注释vue内容实验一下，先不绑定数据-->
+    <div class="container">
+        <div class="col-md-6 col-md-offset-3"> 
+            <h1>Hello Vue.js!</h1>
+        </div>
+        <div id="app">
+            <!-- 绑定数据 -->
+            <!-- {{title}} 单项数据绑定-->
+
+            <!-- MVVM的区域
+            "table table-hover"在 <tbody> 内的任一行启用鼠标悬停状态 -->
+            <table class="table table-hover" v-cloak>
+                <thead>
+                    <!-- tr>td*4 -->
+                    <tr>
+                        <th class="text-right" @click="sortBy('id')">序号</th>
+                        <th class="text-right" @click="sortBy('name')">书名</th class="text-right">
+                        <th class="text-right" @click="sortBy('author')">作者</th class="text-right">
+                        <th class="text-right" @click="sortBy('price')">价格</th class="text-right">
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="book in books" :key="book.id">
+                        <td class="text-right">{{book.id}}</td>
+                        <td class="text-right">{{book.name}}</td>
+                        <td class="text-right">{{book.author}}</td>
+                        <td class="text-right">{{book.price}}</td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <!-- 看到表单，使用json 到data中->book -->
+            <div class="add-book">
+                <!-- legend是个语义化标签， html标签， form 解释-->
+                <!-- 把标签和控件放在一个带有 class .form-group 的 <div> 中。这是获取最佳间距所必需的 -->
+                <legend>添加书籍</legend>
+                <div class="form-group">
+                    <label for="">书名</label>
+                    <!-- v-model双向绑定，修改掉data中的数据 -->
+                    <input type="text" class="form-control" v-model="book.name">
+                </div>
+                <div class="form-group">
+                    <label>作者</label>
+                    <!-- 双向绑定 -->
+                    <input type="text" class="form-control" v-model="book.author">
+                  </div>
+                  <div class="form-group">
+                    <label>价格</label>
+                    <!-- 双向绑定 number型，避免输入数字以外的内容 -->
+                    <input type="number" class="form-control" v-model="book.price">
+                  </div>
+                  <!-- 意思是对象有3个样式，即btn和btn-primary，btn样式来显示对象为按钮，btn-primary来指定按钮为基本样式按钮，颜色为蓝色 
+                    通过添加 .btn-block 类可以设置块级按钮-->
+                  <button class="btn btn-primary btn-block" @click="addBook()">添加</button>
+            </div>
+        </div>
+    </div>
+    <script>
+    // vue 是用来做单页应用的， app  启动vue就是vue实例化的过程，这个过程只做一次
+    // 实例化后接管整个应用 vue  compile 编译
+    // 基本的vue api解构：
+    var app=new Vue({
+        el:'#app', //绑定id为app的元素
+        data(){
+            return {
+                // title:'标题'
+                //要循环的books
+                books: [{
+                    id: 1,
+                    author: '曹雪芹',
+                    name: '红楼梦',
+                    price: 32.0
+                    }, {
+                    id: 2,
+                    author: '施耐庵',
+                    name: '水浒传',
+                    price: 30.0
+                    },{
+                    id: 3,
+                    author: '罗贯中',
+                    name: '三国演义',
+                    price: 28.0
+                    },{
+                    id: 4,
+                    author: '吴承恩',
+                    name: '西游记',
+                    price: 20.0
+                    }],
+                    //这里的book（表单的）与表格的双向绑定
+                    book:{ //对应要输入的表单的值，会跟着输入的值变化
+                        id:0,
+                        name: '',
+                        author: '',
+                        price: ''
+                    },
+                    sortparam: '', /*排序的类型*/
+            }
+        },
+        methods:{
+            addBook() {
+            // console.log(this.book);
+            // 维护数据， 页面会自动更新
+            // 对象 引用类型
+            this.book.id = this.books.length + 1;//加上序号
+            this.books.push(this.book);
+            this.book = {}; //清空book，下次来addbook的时候是全新的book对象
+           },
+           sortBy(sortparam){
+               //支持所有方式排序
+               // mvvm 排序， this.books 排序
+               // arr.sort  函数
+               this.sortparam = sortparam;
+               this.books.sort(function(a,b){
+                let aVal = a[sortparam];
+                let bVal = b[sortparam];
+                // console.log(aVal, bVal);
+                if (typeof aVal == 'number' && typeof bVal == 'number') {
+                    return aVal - bVal; //升序
+                } else {
+                    return  aVal.charCodeAt(0) - bVal.charCodeAt(0) //用Ascii码排序
+                }
+               })
+            //    console.log(this.books);
+           }
+        }
+    })
+    // 接管 vue  compile 
+    </script>
+</body>
+</html>

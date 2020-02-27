@@ -21,3 +21,13 @@ common.styl reset
 mixin.styl css 模块化，功能化
 封装 mixin
 2. 
+
+# common
+1. 组件开发
+weui 静态ui组件，静态页面；通用组件，两者无明确区别，功能上稍稍有一点区别。
+设计一些这样的组件，为未来写组件发布到npm做好准备，如何设计通用性组件？
+弹出一个提示框，新建一个common/alertTip.vue
+借助weui
+介绍一点data和props后，来到App.vue
+
+2. 画出图标 svg css 

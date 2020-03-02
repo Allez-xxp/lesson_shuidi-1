@@ -23,16 +23,89 @@
         <div class="manage_tip">
           <p>elm后台管理系统</p>
         </div>
+        <!-- element-ui 表单组件,表单就是为数据服务的，收集数据，用json,我们收集用户名和密码 :model是props是el-form的需要-->
+        <!-- ref相当于id 因为vue是domless， -->
+        <el-form :model="loginForm" :rules="rules" ref="loginForm">
+          <!-- 为什么要item，因为我们引入了element-ui全局组件，只是一个容器作用，到底是收集哪个参数 -->
+          <el-form-item prop="username">
+            <!-- 负责表单功能 v-model是双向绑定指令，前面的管着后面的容器  -->
+              <el-input v-model="loginForm.username" placeholder="用户名">
+              </el-input>
+            </el-form-item> 
+          <!-- prop这里不用json所以不用加冒号 -->
+          <el-form-item prop="password">
+            <!-- 负责表单功能 v-model是双向绑定指令，前面的管着后面的容器  -->
+              <el-input v-model="loginForm.password" placeholder="密码" type="password">
+              </el-input>
+            </el-form-item> 
+            <el-form-item>
+              <el-button type="primary" @click="submitForm('loginForm')" class="
+              submit_btn">登录</el-button>
+            </el-form-item>
+        </el-form>
       </section>
     </transition>
   </div>
 </template>
 <script>
-
+import { login } from '@/api/getData' //api是与后端结合的模块，所有的后端请求都放这里，不要api业务放组件中
 export default {
   data() {
     return {
-      showLogin: false
+      showLogin: false,
+      loginForm:{
+        username: '',
+        password: ''
+      },
+      rules: {
+        username: [
+          {required:true, message: '请输入用户名', trigger:'blur'}
+        ],
+        password: [
+          {required:true, message: '请输入密码', trigger:'blur'}
+        ]
+      }
+      // Vue是渐进式开发的
+    }
+  },
+  methods:{
+    submitForm(formName){
+      // js无类型约束好上手 Java是不需要手动回收内存的。Java比c++简单点，而vue又比原生的js更好学，因为他不用做DOM开发了
+      // ref就是一个DOM，通过refs找到他们
+      this.$refs[formName].validate(async (valid)=>{
+        console.log(valid);
+        if(valid){
+          //与后端交流重点！！！
+          //api
+          // 要登录一下，是异步的ajax请求
+          // 进行一个分离 es7给予的能力
+          const res = await login({user_name:this.loginForm.username,
+          password:this.loginForm.password
+          });
+          console.log(res);
+          // 模拟mock把能写的先写完，减少不确定性
+          // 从上到下的是message
+          if(res.status == 1){
+            this.$message({
+              type:'success',
+              message:'登录成功'
+            })
+          }else{
+            this.$message({
+              type:'error',
+              message:res.message
+            })
+          }
+        }else{
+          // 原型链this->component.protptype->vue根实例->vue.user
+          this.$notify.error({ //旁边的叫notify
+            title: '错误',
+            message:' 有错',
+            // 距离出错的地方有一百的偏移量
+            offset:100
+          })
+        }
+      })
     }
   },
   mounted() {

@@ -1,0 +1,4 @@
+//配置文件babel的
+{
+    "presets": ["@babel/preset-env"]
+}

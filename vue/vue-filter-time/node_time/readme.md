@@ -18,6 +18,27 @@ object
 Thursday, March 05, 2020 17:55:10
 返回当前本地化时间
 
+> Date();
+Fri Mar 06 2020 17:42:19 GMT+0800
+> new Date();
+ISODate("2020-03-06T09:42:26.680Z")
+> ISODate("2020-03-06T09:42:26.680Z").toString();
+Fri Mar 06 2020 17:42:26 GMT+0800
+> ISODate("2020-03-06T09:42:26.680Z").toLocaleString();
+Friday, March 06, 2020 17:42:26
+> ISODate("2020-03-06T09:42:26.680Z").valueOf();
+1583487746680
+> Date(1583487746680);
+Fri Mar 06 2020 17:44:36 GMT+0800
+> new Date(1583487746680);
+ISODate("2020-03-06T09:42:26.680Z")
+> new Date(ISODate("2020-03-06T09:42:26.680Z"));
+ISODate("2020-03-06T09:42:26.680Z")
+> Date(ISODate("2020-03-06T09:42:26.680Z"));
+Fri Mar 06 2020 17:46:10 GMT+0800
+>
+
+
 > use tests;
 switched to db tests
 > db.tb1.insert({mydate: ISODate("20121102 07:58:51")})
@@ -159,3 +180,11 @@ $match -->where
 ... }
 ... }
 ... ])
+
+# time mongodb还有什么？
+$lte $gt
+SAODate 8小时时区
+
+todo 活动 activity 分为开始日期和结束日期 time
+新的模型todo.js
+http://www.mongoosejs.net/docs/queries.html

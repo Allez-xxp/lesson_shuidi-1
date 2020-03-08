@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">提交成功</button>
+    <script>
+        function success(e){ //一般做表单提交时，接口请求是需要时间的，如果连续点，没点一次就要提交一次，及其浪费服务器资源
+            console.log('提交成功')
+        }
+        //防抖函数，限定在一定的时间之内，只能让方法执行一次（只取最后一次）
+        // 1.创建一个函数 ,由需求可知，debounce需要接收参数
+        // 2.调用防抖函数函数，先调用效果就知道需求在哪里
+        // 3.因为要限定时间，所以debounce中要有一个定时器。
+        // 4.要注意最后要把结果return给debounce,return的得是一个方法
+        // 5.但只有点击第一次的时候才有用？再点击，点的很快的时候就没有用了？
+        // JavaScript中的一个默认机制：如果在定时器还没有执行完的时候再次调用定时器的话，那么第二次调用的就会覆盖掉前一次的
+        // 6.优化，入伙success中涉及this.在回调函数以及闭包中等方法中this作用域会被修改，为防万一，要为传进来的success方法绑定this的作用域
+        // 7.apply（）绑定this
+        // 8.如果当前要接受的函数，也就是success要接受参数怎么办？要先在return的匿名函数中先接受一下，然后在调用fn的时候把参数带上
+        const debounce = (fn, delay)=>{ //1
+            let timer = null //因为要清除定时器得先知道定时器叫什么名字
+            return (...args) =>{ //先接收一下success传的参数
+                clearTimeout(timer)
+                timer = setTimeout(()=>{ //如何让它的功能不被覆盖？只要把它上一次的记录删掉就好了，记得是在定时器之前清除上一次的定时器
+                    fn.apply(this, args) //把fn里面的this 的作用域绑定好，不要被外界修改 //带上参数
+                },delay)
+            }
+        }
+        // success被debounse修饰之后的一个方法为odebounce,->要放到click事件中，所以把success换成odebounce
+        const odebounce = debounce(success,2000) //2 最后一次点击的两秒之后才会打印出来                                        
+        
+        let btn = document.getElementById('btn')
+        btn.addEventListener('click',odebounce)
+    </script>
+</body>
+</html>

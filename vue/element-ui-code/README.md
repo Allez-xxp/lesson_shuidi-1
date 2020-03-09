@@ -54,3 +54,25 @@ is-customed??
 （例如：slot="foo" 中的内容将会在 vm.$slots.foo 中被找到）
 default 属性包括了所有没有被包含在具名 slot 中的节点
 
+isBigIcon(){
+            return this.description || this.$slot.default ? 'is-big' : '';
+        }
+description在App.vue写了东西就会变成大图标，不屑就没东西？
+
+# 怎么使用element-ui的？
+import ElementUI from 'ekement-ui'
+Vue.use(ElementUI)
+然后你就能全局使用element-ui了
+- 为什么？vue.use 背后在干什么？
+- 如果只想使用部分组件怎么做？
+在网页开发中，js是越少越好-》性能优化中
+如果项目中用不到所有组件，只使用部分，打包的时候js就越少，项目就越快
+
+- 每一个组件都是一个目录
+carousel组件，设计成了一个父子组件，各司其职。将组件拆分，拆的足够细：
+carousel-item
+如何划分职责
+容器组件 决定横向|竖向滚动，是否自动 自定义事件，外界由此知道滚动到哪里@change interval多少秒
+子组件 关系是slot关系
+- element-ui 组件开发，框架，难度 表震度 专业度 多个部门协作的
+index.js方便安装 install Vue.component

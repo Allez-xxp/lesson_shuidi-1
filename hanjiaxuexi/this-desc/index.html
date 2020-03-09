@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // // 我们这里是在非严格模式下，浏览器的尽头是window
+        // function demo(){
+        //     var user = '蜗牛'
+        //     console.log(this) //this指向的是调用它的对象
+        //     console.log(this.user) //“undefined,”因为此刻的this指向的是window，window下没有user变量，user是在demo方法中的
+        // }
+        // demo() //当前this是在全局里面被调用的,尽头是window，所以demo在window下被调用，此刻的this指向的是window
+        // window.demo() //跟前面的效果是一样的，因为都是在window下
+
+        // var obj = { //定义一个对象
+        //     a: 1,
+        //     b: {
+        //         a:2, //如果注销这个a,则调用后是undefined
+        //         fn: function() {
+        //         console.log(this.a)  // "2"
+        //         console.log(this) // "window"
+        //         }
+        //     }
+        //     // user: '蜗牛',
+        //     // fn: function(){
+        //     //     console.log(this.user) //“蜗牛” ,说明当前的this一定是指向obj,还是看this指向的是调用它的对象
+        //     // }
+        // }
+        // // obj.b.fn() //fn在被b调用，fn中的this指向b,但是b还被object调用了，为什么不指向object?
+        // // 如果函数被多层调用，会就近原则，指向函数上级，那什么时候才会指向obj？
+        // var demo = obj.b.fn; //这样调用，此刻的结果是undefined，不是2，重点在调用this的对象是什么
+        // // 当前fn没有被调用，只是把fn这个方法引用给了demo,引用函数!=调用函数
+        // demo() //这里才是调用，而此刻的this指向window
+
+        // // obj.fn() //调用这个方法，此刻fn方法是被obj调用的，所以在fn函数里面的this指向的是obj
+        // //可是obj不是在全局调用的方法吗？为什么不是window.obj.fn()?
+
+        //修改作用域
+        function returnThis(){
+            console.log(this)
+            return this
+        }
+        var user = { //定义user对象
+            name: '蜗牛'
+        }
+        returnThis() //当前的this指向的是window,想要让它打印出蜗牛，所以要让this的指向能指到user
+        returnThis.call(user) //原生js提供.call就是用来修改作用域的指向的，里面要接受参数
+        returnThis.apply(user) //也是一样的效果。关于.bind()等会解释
+        //为什么.call和.apply可以呢？因为相当于写的是Object.prototype.call(),使用了对象的原型链来修改this的指向
+
+    </script>
+</body>
+</html>

@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <script>
+    <!-- <script>
         // // 我们这里是在非严格模式下，浏览器的尽头是window
         // function demo(){
         //     var user = '蜗牛'
@@ -52,6 +52,18 @@
         returnThis.apply(user) //也是一样的效果。关于.bind()等会解释
         //为什么.call和.apply可以呢？因为相当于写的是Object.prototype.call(),使用了对象的原型链来修改this的指向
 
+    </script> -->
+
+<!-- 如何修改this作用域 -->
+    <script>
+        var a = {
+            user: '蜗牛',
+            fn: function(){
+                console.log(this.user)
+            }
+        }
+        var b = a.fn; //"undefined",因为没有调用
+        b()
     </script>
 </body>
 </html>

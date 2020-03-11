@@ -1,0 +1,16 @@
+{
+  "name": "webp",
+  "version": "1.0.0",
+  "description": "菊花图 \r 大的蜜蜂图显示出来， 延迟加载？ loading 不用\r 不知道怎么做",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lqip": "^2.1.0",
+    "webp-converter": "^2.2.3"
+  }
+}

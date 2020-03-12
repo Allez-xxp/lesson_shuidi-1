@@ -76,3 +76,13 @@ carousel-item
 子组件 关系是slot关系
 - element-ui 组件开发，框架，难度 表震度 专业度 多个部门协作的
 index.js方便安装 install Vue.component
+
+2. 编写ElButton
+- 保留了css,fucus组件设计
+- components/ElButton
+- 根据不同类型，生成不同的类名，利用vue中的computed属性
+- 朴素按钮，圆角按钮，都是通过类名来分别制定
+  is-plain is-round类名 :class
+  icon属性
+  打理slot,默认的按钮有slot的，利用v-if
+

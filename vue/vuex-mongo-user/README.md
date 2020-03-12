@@ -1,3 +1,4 @@
+# partOne
 1. 数据流通
 数据绑定 -》 数据流
 vuex
@@ -35,5 +36,13 @@ https://www.cnblogs.com/cythia/p/10985080.html
 npm config set registry http://registry.npm.taobao.org/
 还原
 npm config set registry https://registry.npmjs.org/
+PS D:\LESSION_SHUIDI\vue\vuex-mongo-user> npm login
+Username: (linanhu)
+Password: (<default hidden>)
+Email: (this IS public) (1919412022@qq.com)
+Logged in as linanhu on http://registry.npm.taobao.org/.
 
 node-user->api->store(状态管理)->components
+api中，可能多个组件共享同一个数据状态所以需要有一个store,z进行状态管理
+
+# partTwo

@@ -1,61 +1,58 @@
 const _users = [
-    {
-        "address":{
-        "city": "Los Angeles",
-        "state": "California",
-        "pincode": "123"
-        },
-        "tags":[
-        "music",
-        "blogs",
-        "cricket"
-        ],
-        "name": "Tom Benzamin"
+  {
+    "address": {
+      "city": "Los Angeles",
+      "state": 'California',
+      "pincode": "123"
     },
-    {
-        "address":{
-        "city": "赣州",
-        "state": "江西",
-        "pincode": "1233241"
-        },
-        "tags":[
-        "coding",
-        "blogs",
-        "cricket"
-        ],
-        "name": "顾瑾颜"
+    "tags": [
+      "music",
+      "blogs",
+      "cricket"
+    ],
+    "name": "Tom Benzamin"
+  },
+  {
+    "address": {
+      "city": "赣州",
+      "state": '江西',
+      "pincode": "331000"
     },
-    {
-        "address":{
-        "city": "南昌",
-        "state": "江西",
-        "pincode": "444123"
-        },
-        "tags":[
-        "swim",
-        "blogs",
-        "read"
-        ],
-        "name": "颜如玉"
+    "tags": [
+      "coding",
+      "blogs"
+    ],
+    "name": "明天"
+  },
+  {
+    "address": {
+      "city": "九江",
+      "state": '江西',
+      "pincode": "331000"
     },
+    "tags": [
+      "coding",
+      "swim"
+    ],
+    "name": "襄阳"
+  },
     {
-        "address":{
-        "city": "杭州",
-        "state": "苏州",
-        "pincode": "66123"
-        },
-        "tags":[
-        "music",
-        "blogs"
-        ],
-        "name": "苏杭"
-    }
-      
+    "address": {
+      "city": "赣州",
+      "state": '江西',
+      "pincode": "331000"
+    },
+    "tags": [
+      "coding",
+      "games"
+    ],
+    "name": "颜如玉"
+  }
 ]
 export default {
-    fetchUsers(cb) {
-        setTimeout(()=>{
-
-        },1000)
-    }
+  fetchUsers(cb) {
+    setTimeout(() => {
+      cb(_users);
+    }, 1000)
+  }
 }

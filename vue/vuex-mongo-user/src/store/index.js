@@ -1,83 +1,88 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import api from '@/api/index.js'
 
 Vue.use(Vuex)
-//单一状态树 单一？树？
+// 单一状态树  单一?  树？
 export default new Vuex.Store({
-  state: { //状态
-  //  users:[ //users应该在这里.放到api/index中
-  //     {
-  //       "address":{
-  //         "city": "Los Angeles",
-  //         "state": "California",
-  //         "pincode": "123"
-  //       },
-  //       "tags":[
-  //         "music",
-  //         "blogs",
-  //         "cricket"
-  //       ],
-  //       "name": "Tom Benzamin"
-  //     },
-  //     {
-  //       "address":{
-  //         "city": "赣州",
-  //         "state": "江西",
-  //         "pincode": "1233241"
-  //       },
-  //       "tags":[
-  //         "coding",
-  //         "blogs",
-  //         "cricket"
-  //       ],
-  //       "name": "顾瑾颜"
-  //     },
-  //     {
-  //       "address":{
-  //         "city": "南昌",
-  //         "state": "江西",
-  //         "pincode": "444123"
-  //       },
-  //       "tags":[
-  //         "swim",
-  //         "blogs",
-  //         "read"
-  //       ],
-  //       "name": "颜如玉"
-  //     },
-  //     {
-  //       "address":{
-  //         "city": "杭州",
-  //         "state": "苏州",
-  //         "pincode": "66123"
-  //       },
-  //       "tags":[
-  //         "music",
-  //         "blogs"
-  //       ],
-  //       "name": "苏杭"
-  //     }
-  //   ]
+  state: {
+    users: [
+      // {
+      //   "address": {
+      //     "city": "Los Angeles",
+      //     "state": 'California',
+      //     "pincode": "123"
+      //   },
+      //   "tags": [
+      //     "music",
+      //     "blogs",
+      //     "cricket"
+      //   ],
+      //   "name": "Tom Benzamin"
+      // },
+      // {
+      //   "address": {
+      //     "city": "赣州",
+      //     "state": '江西',
+      //     "pincode": "331000"
+      //   },
+      //   "tags": [
+      //     "coding",
+      //     "blogs"
+      //   ],
+      //   "name": "王志浩"
+      // },
+      // {
+      //   "address": {
+      //     "city": "九江",
+      //     "state": '江西',
+      //     "pincode": "331000"
+      //   },
+      //   "tags": [
+      //     "coding",
+      //     "swim"
+      //   ],
+      //   "name": "刘子民"
+      // },
+      //  {
+      //   "address": {
+      //     "city": "赣州",
+      //     "state": '江西',
+      //     "pincode": "331000"
+      //   },
+      //   "tags": [
+      //     "coding",
+      //     "games"
+      //   ],
+      //   "name": "衷从海"
+      // }
+    ]
   },
-  mutations: { //只能在这里修改
-    setUsers(state,payload){ //对数据的写操作的唯一地方
+  mutations: {
+    setUsers(state, payload) { // 写操作 唯一地方
       state.users = payload
     }
   },
-  actions: { //负责写入状态的第一步,是一个动作，可以请求api但不能直接修改
-    //跟api通信的地方
-    fetchUsers(context){ //没有state只有是context上下文环境
-    api
-      .fetchUsers((user)=>{ //去写api模块app.vue中，注意api里方法名和适用的一致性
-        // console.log(users);
-        // 写入state，会严格一些，要走一个流程
-        context.commit('setUsers',users)
-      })
+  actions: { // 负责数据的请求 写入状态的第一步 但不能直接改，可以去提交一个mutation,z这里只是一个动作可以请求api,但不能直接修改状态
+    // 负责跟api 通信的地方`
+    fetchUsers(context) { //方法，传的也只是context上下文环境参数
+      api 
+        .fetchUsers((users)=> { //封装一个方法，传一个回调
+          // console.log(users);
+          // 写入state,   严格一些 就像开账单，写一个条子 按流程来
+          context.commit('setUsers', users)
+        })
     },
+    
   },
-  getters: { //相当于state的computed函数，进行重新计算的，要进行处理时就加
-    getUsers(state) { //是一个函数,vuex会给getters一个形参state,getters是对状态的一个读操作
-      return state.users.map()
+  getters: {  // state computed 函数 数据需要进行处理时就加这个
+    getUsers(state) { // vuex这个api 会给getter函数state这个形参  读操作 第二种方法获取状态树的数据
+      // return state.users
+      // 做一个变形
+      return state.users.map((user, index) => {
+        user.id = user.address.pincode + index //邮箱地址+邮政编码+index
+        return user //map之后要return一个新user
+      })
     }
   },
   modules: {

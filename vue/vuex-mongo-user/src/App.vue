@@ -1,9 +1,17 @@
 <template>
   <div id="app">
+    <select @change="queryTag">
+      <option value="">请选择</option>
+      <option value="poem">诗歌</option>
+      <option value="coding">编程</option>
+      <option value="music">音乐</option>
+    </select>
+    <!-- change事件放在了...mapAction中，而不是methods中 -->
     <!-- <div v-for="(user, index) in $store.state.users" :key="index"> -->
     <div v-for="(user, index) in getUsers" :key="index">
       {{user.id}} {{user.name}}
     </div>
+    
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
@@ -85,7 +93,21 @@ export default {
     // HelloWorld
   },
   methods:{  // vuex action
-    ...mapActions(['fetchUsers'])
+  //抽象一点
+    ...mapActions(['fetchUsers', 'queryTag']),
+    // queryTag(evt) { 
+      // 因为这里本来就要发送一个mapAction请求
+      // 他只是要拿到一个
+      // tag = evt.target.value;
+    // console.log(tag, 'component);}
+
+    // 根据tag把相应的用户找出来
+    // 1. tag change value 
+    // 2. users computed mapGetters 
+    //   actions  api   发出新的请求  vuex store 
+    // 3. api/  
+    // 4. node router  /tag/:tag再回流回到api
+    // queryTag() {}
   },
   mounted() { //使用生命周期取数据
     this.fetchUsers();

@@ -11,3 +11,7 @@
    如果一个函数中有this，尽管这个函数是被最外层的对象所调用，this却只会指向其上一级对象
     obj.b.fn()
 4. 修改this作用域问题
+方法有：call,apply,bind
+用bind方法给一个函数进行this作用域的绑定后他就是一个永久性的绑定。会覆盖掉call、apply的指向。
+var user2 = {name: '蜗牛小生'}
+user1return.call(user2) //已经执行了bind,再让他指到user2中去,但是打印的是仍是{name: "蜗牛"}

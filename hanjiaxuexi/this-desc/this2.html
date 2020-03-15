@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <script>
+        //延续this.html
+        function returnThis(){
+            console.log(this);
+            return this
+        }
+        var user1 = { name: '蜗牛' }
+        //上节中说过的改变this的作用域
+        var user1return = returnThis.bind(user1) //用bind方法给一个函数进行this绑定后他就是一个永久性的绑定
+        user1return() //调用方法 ,打印{name: "蜗牛"}
+
+        var user2 = {name: '蜗牛小生'}
+        user1return.call(user2) //已经执行了bind,再让他指到user2中去,但是打印的是仍是{name: "蜗牛"}
+    </script> -->
+
+    <!-- this遇上return会直接返回值 -->
+    <script>
+        // function fn() { //这里是一个构造函数，所以我们把它new一个对象出来
+        //     this.user = '蜗牛'
+        //     return {}  //返回一个空对象
+        // }
+        // var a = new fn //new出来的fn会继承原本的构造函数的属性(user),应该会打印出来"蜗牛""
+        // console.log(a.user); //“undefined”，为什么？因为当前我们使用了一个return {}
+
+        //对比一下
+        // function fn() { //这里是一个构造函数，所以我们把它new一个对象出来
+        //     this.user = '蜗牛'
+        //     return function(){}  //返回一个function
+        // }
+        // var a = new fn //new出来的fn会继承原本的构造函数的属性(user),应该会打印出来"蜗牛""
+        // console.log(a.user); //还是undefined
+        // 可以看出只要是函数中有return，并且return的是空对象或者是函数，最终都会影响到函数实例的继承 
+    </script>
+</body>
+</html>

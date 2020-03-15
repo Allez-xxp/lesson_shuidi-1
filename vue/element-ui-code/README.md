@@ -86,3 +86,13 @@ index.js方便安装 install Vue.component
   icon属性
   打理slot,默认的按钮有slot的，利用v-if
 
+# 按钮组
+1. https://github.com/ElemeFE/element/blob/dev/packages/button/src/button-group.vue
+2. Badge标记
+出现在按钮、图标旁的数字或状态符
+ElBadge 徽章
+- 要显示的数字value 
+<sub> 标签可定义下标文本。
+包含在 <sub> 标签和其结束标签 </sub> 中的内容将会以当前文本流中字符高度的一半来显示，但是与当前文本流中文字的字体和字号都是一样的
+- 只显示小圆点在左上角
+isDot: Boolean, //参数中有驼峰式命名时，在传的时候是以-小写替代大写，遵守js风格

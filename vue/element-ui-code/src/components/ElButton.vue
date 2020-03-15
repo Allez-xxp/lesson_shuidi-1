@@ -40,6 +40,8 @@
 
 <script>
 export default {
+    //要来ElButton.vue声明组件名
+    name: 'ElButtonGroup',
     props:{
         loading: Boolean,
         type:{

@@ -22,12 +22,24 @@
     </carousel>
     <el-button 
       type="success" 
+      nativeType=""
+      loading
       round 
       plain
-       ><span slot="solt">按钮</span></el-button>
+      icon="el-icon-edit"
+      @click="upload"      
+       >按钮</el-button>
+    <el-button 
+      type="text"          
+    >文本按钮</el-button>
+    <el-button type="primary">上传<i class="el-icon-upload el-icon--right"></i></el-button>
+
        <!-- 这里给slot加了name,因为$slots.default就不会为true了（因为slot不为default）所以不会输出 -->
-    <!-- Boolean的有值即为真，所以只需要传round就可以了 
-      icon="el-icon-edit"去掉就没有东西在按钮上了，处理loading -->
+       <!-- Boolean的有值即为真，所以只需要传round就可以了 
+       icon="el-icon-edit"去掉就没有东西在按钮上了，处理loading
+       交给业务层处理点击事件，在这里定义的是上传事件，在ElButton.vue中定义的是Click点击事件 -->
+       <!-- nativeType="submit"表单提交 reset，表单重置 -->
+       <!-- 添加loading能力 -->
   </div>
 </template>
 
@@ -40,6 +52,11 @@ export default {
     // ElAlert  //导入了组件要记得写一下，然后建相应的文件ElAlert.vue
     // 'carousel': Carousel //自定义组件时这样写，组件名大写的时候组件里面的html标签小写
     ElButton 
+  },
+  methods: {
+    upload(evt){
+      console.log(evt);
+    }
   }
 }
 </script>

@@ -15,3 +15,12 @@
 用bind方法给一个函数进行this作用域的绑定后他就是一个永久性的绑定。会覆盖掉call、apply的指向。
 var user2 = {name: '蜗牛小生'}
 user1return.call(user2) //已经执行了bind,再让他指到user2中去,但是打印的是仍是{name: "蜗牛"}
+5. 如果this和return
+如果返回是一个对象，那么this就指向返回的对象，拿不到user属性
+function fn() { //这里是一个构造函数，所以我们把它new一个对象出来
+    this.user = '蜗牛'
+    return {}  //返回一个空对象，空对象也是对象
+} 
+如果返回的不是对象，this就还是指向原来的函数实例
+如果返回的是null,this还是返回的是实例，比较特殊。
+6. es6箭头函数中this的指向取决于创建的位置

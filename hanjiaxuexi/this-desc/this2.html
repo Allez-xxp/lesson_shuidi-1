@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
+    <!-- 1 -->
     <!-- <script>
         //延续this.html
         function returnThis(){
@@ -21,13 +22,13 @@
         user1return.call(user2) //已经执行了bind,再让他指到user2中去,但是打印的是仍是{name: "蜗牛"}
     </script> -->
 
-    <!-- this遇上return会直接返回值 -->
-    <script>
+    <!-- 2. this遇上return会直接返回值 -->
+    <!-- <script>
         // function fn() { //这里是一个构造函数，所以我们把它new一个对象出来
-        //     this.user = '蜗牛'
+        //     this.user = '蜗牛'            
         //     return {}  //返回一个空对象
-        // }
-        // var a = new fn //new出来的fn会继承原本的构造函数的属性(user),应该会打印出来"蜗牛""
+        // }       
+        // var a = new fn() //new出来的fn会继承原本的构造函数的属性(user),应该会打印出来"蜗牛""
         // console.log(a.user); //“undefined”，为什么？因为当前我们使用了一个return {}
 
         //对比一下
@@ -38,6 +39,54 @@
         // var a = new fn //new出来的fn会继承原本的构造函数的属性(user),应该会打印出来"蜗牛""
         // console.log(a.user); //还是undefined
         // 可以看出只要是函数中有return，并且return的是空对象或者是函数，最终都会影响到函数实例的继承 
+        
+        // function fn() {
+        //     this.user = '蜗牛'
+        //     return 1   //如果返回的是这个
+        // }
+        // var a = new fn
+        // console.log(a.user); //"蜗牛"。这个时候实例a是能够继承构造函数本身的属性的
+
+        // function fn() {
+        //     this.user = '蜗牛'
+        //     return undefined   //如果返回的是这个
+        // }
+        // var a = new fn
+        // console.log(a.user); //"蜗牛"
+
+        function fn(){
+            this.user = '蜗牛'
+            return null
+        }
+        var a = new fn
+        console.log(a.user); //"蜗牛"。null也是对象 怎么没返回对象呢？能拿得到结果呢？null比较特殊
+    </script> -->
+
+    <!-- 3.箭头函数对this的影响-->
+    <script>
+        function callback(qdx){
+            qdx()  //把别的函数当作参数传进回调函数中
+        }
+        callback(()=>{ //调用回调函数，在里面使用箭头函数,指向window
+            console.log(this) //返回的是window 这里确实是callback调用了qdx，不是引入函数，所以是在window
+        }) 
+
+        var user = {
+            name: '蜗牛',
+            callback: callback, //区别在于，这里的callback属性是callback函数，而且是一个箭头函数
+            callback1() { //user的callback //他不是一个箭头函数，只不过是里面调用的函数是箭头函数
+                callback(()=>{
+                    console.log(this)
+                })
+            }
+        }
+        user.callback(()=>{ //引用的是外面的callback方法
+            console.log(this) //"window(..)的属性" 这里明明是被user调用，为什么打印的是window?
+        })
+        user.callback1(()=>{
+            console.log(this) //"user(..)的属性"指向的是user
+        })
+        //箭头函数中的this要看他创建的位置而不是调用的位置
     </script>
 </body>
 </html>

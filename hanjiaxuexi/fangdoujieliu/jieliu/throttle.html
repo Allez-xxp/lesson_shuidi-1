@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 节流每隔一段时间执行一次 -->
+    <button id="btn">节流提交</button>
+    <script>
+        function success(e){ //为什么要传一个参数？
+            // console.log(e) //mouseEvent(..)
+            console.log('提交成功')
+        }
+        //函数节流
+        //每次执行完一次fn后的delay后又能执行一次，借助一个开关变量
+        const throttle = (fn, delay)=>{ //1.
+            let flag = true        //5.定义一个开关变量，只有上一个fn执行完，flag变为了true才去执行
+            return (...args)=>{    //4.方法里面的方法要给一个返回值 //9.若success接受参数
+                if(!flag) return   //8.如果flag为false,就直接return 
+                flag = false       //6.每次执行点击事件的时候，都把falg设置为false,点击事件执行完之后才变为true
+                setTimeout(()=>{   //3.每隔delay时间执行fn
+                    // fn()       //此时只有第一次点击才有用，其他的时候点击没用，这是因为js内部机制，功能被覆盖了
+                    fn.apply(this, args)   //10.给fn带上参数，同时给fn绑定this的作用域
+                    flag = true //7
+                },delay)
+            }
+        }
+        const oThrottle = throttle(success, 2000) //2.使用throttle方法去修饰success
+
+        let btn = document.getElementById('btn')
+        btn.addEventListener('click',oThrottle)
+    </script>
+</body>
+</html>

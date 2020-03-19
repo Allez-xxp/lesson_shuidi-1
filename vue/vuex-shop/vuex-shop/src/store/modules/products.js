@@ -13,6 +13,10 @@ const mutations = {
  //mutations叫做对修改的定义，不能乱修改
  setProducts(state, products) { //对state的修改在这里
     state.all = products //？
+ },
+ decrementProductInventory(state, { id }) {
+    const product = state.all.find(product =>product.id === id) 
+    product.inventory--
  }
 }
 const actions = {  //按模块开发

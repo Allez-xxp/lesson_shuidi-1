@@ -7,7 +7,13 @@
     <router-view/>
   </div>
 </template>
-
+<script>
+export default {
+  mounted() {
+    // console.log(this.utils); //this会沿着原型链一直查找，会找到utils,打印出其中定义的对象
+  }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

@@ -1,5 +1,13 @@
-原项目git地址：
+实验楼项目git地址：
 https://github.com/HuberTRoy/vue-shiyanlou/blob/dev/src/main.js
+实验楼：
+http://www.cyrbuzz.xyz/
+其他项目：
+- 掘金 https://juejin.im/post/5afb6ecef265da0b8070e726
+  代码 vue music webapp : http://120.79.162.149:3002/#/recommend
+- 掘金作家：https://juejin.im/user/57f0f27a128fe100542d29ad
+
+
 开源项目把他走通，了解细节，实验楼的项目为例
 在做前，学类似开源
 # main.js
@@ -38,3 +46,13 @@ files.keys().forEach(key => {
   //json object
   modules[name] = files(key).default || files(key)
 });
+- 路由钩子函数
+路由的每一次切换都会执行这个方法，路由的钩子函数
+router.beforeExch((to,from,next)=>{})
+全局钩子函数之   全局的afterEach钩子：
+after 钩子没有 next 方法，不能改变导航，代表已经确定好了导航怎么去执行后，附带的一个执行钩子函数 
+router.afterEach((to, from)=>{
+  window.scrollTo(0, 0)
+  //scrollTo() 方法可把内容滚动到指定的坐标。
+  <!-- https://developer.mozilla.org/zh-CN/docs/Web/API/Window/scrollTo' -->
+})

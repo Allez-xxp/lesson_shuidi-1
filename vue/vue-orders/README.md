@@ -47,3 +47,17 @@ url 提供
 可拔插的功能，在后端不给力的时候插入，给力的时候拔掉
 前端有了mock 不需要后端在开发阶段支持你
 "status": "created" //如何在三种状态随机？？
+
+导入文件：
+mongorestore -h 127.0.0.1:27017 D:\lvmeng\dump
+前端mock 等后端接口
+mock 本地数据库
+开发业务mock
+
+# 真实的后端数据：nide/node-orders
+将mock的数据变成与数据库相匹配的
+chrome里的插件jsonview
+// import Mock from '@/mock'  //拿到真数据 mock就能注销了
+但是还要加一个vue.config.js解决跨域问题
+Axios中可以改回get了
+

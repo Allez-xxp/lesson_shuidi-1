@@ -50,12 +50,12 @@
     </template>
     </el-table-column>
     <el-table-column label="邮费"
-    prop="shoppingFee"
+    prop="shippingFee"
     align="center"
     width="100"
     >
     <template slot-scope="{row}">
-      <span>{{row.shoppingFee}}</span>
+      <span>{{row.shippingFee}}</span>
     </template>
     </el-table-column>
     <el-table-column label="单价"
@@ -94,7 +94,7 @@ export default {
         //   "name": "韭黄",
         //   "orderDate": new Date(),
         //   "status": "completed",
-        //   shoppingFee: "0.5",
+        //   shippingFee: "0.5",
         //   total: "111"
         // },
         // {
@@ -102,7 +102,7 @@ export default {
         //   "name": "韭黄",
         //   "orderDate": new Date(),
         //   "status": "canceled",
-        //   shoppingFee: "0.6",
+        //   shippingFee: "0.6",
         //   total: "111"
         // },
         // {
@@ -110,7 +110,7 @@ export default {
         //   "name": "韭黄",
         //   "orderDate": new Date(),
         //   "status": "created",
-        //   shoppingFee: "0.7",
+        //   shippingFee: "0.7",
         //   total: "111"
         // }
       ]
@@ -120,15 +120,31 @@ export default {
     // setTimeout(()=>{
     //   this.listLoading = false
     // },1000)
-    Axios.post('/api/orders',{
+    // Axios.post('/api/orders',{
+    //   params: {
+    //     // 分页参数        
+    //   }
+    // })
+    //不能接受动态路由吗？ /api/orders/:page/:limit
+    // Axios.get('/api/orders',{
+    //   params: {
+    //     // 分页参数 
+    //     page: this.page,
+    //     limit: this.limit       
+    //   }
+    // })
+    // Axios.post('/api/orders',{
+      Axios.get('/api/orders',{
       params: {
-        // 分页参数
-        
+        // 分页参数 
+        page: this.page,
+        limit: this.limit       
       }
     })
     .then(res => {
       console.log(res);
-      this.list = res.data.orders
+      // this.list = res.data.orders
+      this.list = res.data.result
       setTimeout(()=>{
         this.listLoading = false
       },1000)

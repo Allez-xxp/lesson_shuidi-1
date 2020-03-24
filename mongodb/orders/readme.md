@@ -28,7 +28,7 @@ db.orders
 ... }]);
 { "_id" : null, "total" : NumberDecimal("44019609") }
 
-- 计算第一季度，每个州销量最多的sku的第一名
+- 计算第一季度，每个州销量最多的sku的第一名 
   - 第一季度  关联的字段：orderDate ISODate()  用$lt $gt 找出季度
   - 每个州    关联的字段：$state  是分组的依据，以州统计销量最多 $group  state
   - 销量最多  关联的字段：orderLines有sku和 quality  orderLines.sku 进行分组$group,分完组后是对数量求和$sum  orderLines.qty
@@ -69,7 +69,7 @@ $group: {
 ...     $group: {
 ...        _id: {
 ...               state: "$state",
-...               sku: "orderLines.sku"
+...               sku: "$orderLines.sku"
 ...        },
 ...       count: {
 ...               $sum: "$orderLines.qty"
@@ -88,13 +88,13 @@ $group 分组  _id 根据什么字段分组  $total $
 ... {
 ...    $sort: {
 ...        "_id.state":1,
-...         "count" -1
+...         "count": -1
 ...    }
 ... }
 ... ]);
 
 
-> db.orders.aggregate([ {     $match: {         status: "completed",         orderDate: {               $gte: ISODate("2019-01-01"),              $lt: ISODate("2019-04-01")              }      } } ,{ $unwind:"$orderLines" }, {     $group: {        _id: {               state: "$state",               sku: "orderLines.sku"        },       count: {               $sum: "$orderLines.qty"              }      }  }, {    $sort: {        "_id.state":1,         "count":-1    } } ,
+> db.orders.aggregate([ {     $match: {         status: "completed",         orderDate: {               $gte: ISODate("2019-01-01"),              $lt: ISODate("2019-04-01")              }      } } ,{ $unwind:"$orderLines" }, {     $group: {        _id: {               state: "$state",               sku: "$orderLines.sku"        },       count: {               $sum: "$orderLines.qty"              }      }  }, {    $sort: {        "_id.state":1,         "count":-1    } } ,
 ... {
 ...    $group:
 ...           {
@@ -110,3 +110,46 @@ $group 分组  _id 根据什么字段分组  $total $
 ... ]);
 { "_id" : "Kentucky", "sku" : "orderLines.sku", "count" : 56124 }
 { "_id" : "Louisiana", "sku" : "orderLines.sku", "count" : 47248 }
+
+db.orders.aggregate([ {     $match: {        status: "completed",        orderDate: {           $gte: ISODate("2019-01-01"),           $lt: ISODate("2019-04-01")        }     } } ,{ $unwind: "$orderLines" }, {   $group:{     _id:{       state:"$state",       sku:"$orderLines.sku"     },   count:{     $sum:"$orderLines.qty"   } } }, {   $sort: {     "_id.state" : 1, "count" : -1 } },{    $group:       {       _id: "$_id.state",       sku: {           $first: "$_id.sku"      },      count: {         $first: "$count"      } } }] )  ;
+作业，   统计  SKU 销量件数     统计每个sku再第一季度销量的次数     不算取消状态的订单，   按销售数量降序排序
+1. 
+> db.orders.aggregate([
+...  {
+...      $match:{
+...           status: "completed",
+...           orderDate:{
+...               $gte: ISODate("2019-01-01"),
+...               $lt: ISODate("2019-04-01")
+...              }
+...        }
+... }
+... ]);
+
+2. 
+> db.orders.aggregate([  {       $match:{           status: "completed",           orderDate:{               $gte: ISODate("2019-01-01"),               $lt: ISODate("2019-04-01")              }        } } ,
+... {
+...   $unwind:"$orderLines"
+... }
+... ]);
+3. 
+> db.orders.aggregate([  {       $match:{           status: "completed",           orderDate:{               $gte: ISODate("2019-01-01"),               $lt: ISODate("2019-04-01")              }        } } , {    $unwind:"$orderLines" } ,
+... {
+...    $group: {
+...       _id: {
+...              sku: "$orderLines.sku"
+...       },
+...    count: {
+...             $sum: "$orderLines.qty"
+...            }
+...    }
+... }
+... ]);
+4. 
+> db.orders.aggregate([  {       $match:{           status: "completed",           orderDate:{               $gte: ISODate("2019-01-01"),               $lt: ISODate("2019-04-01")              }        } } , {    $unwind:"$orderLines" } , {     $group: {       _id: {              sku: "$orderLines.sku"       },    count: {             $sum: "$orderLines.qty"            }    } } ,
+... {
+...   $sort: {
+...           "count":-1
+...          }
+... }
+... ]);

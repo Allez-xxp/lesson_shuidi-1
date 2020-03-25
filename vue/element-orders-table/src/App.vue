@@ -17,12 +17,13 @@
          @keyup.enter.native = "getList">       
       </el-input>
       <template>
-      <el-select v-model="value" placeholder="请选择">
+      <el-select v-model="listQuery.value" placeholder="按id排序" @change="getList">
         <el-option
           v-for="item in options"
           :key="item.value"
           :label="item.label"
-          :value="item.value">
+          :value="item.value"          
+          >
         </el-option>
       </el-select>
     </template>
@@ -71,12 +72,13 @@ export default {
   data() {
     return {
       options: [{
-          value: '1',
-          label: '升序'
-        }, {
-          value: '2',
-          label: '降序'
-        }],        
+        value: 'asc',
+        label: '升序'
+      }, {
+        value: 'desc',
+        label: '降序'
+      }],
+      value:'',        
       list:[],
       total: 0, //总计，到时候好分页
       listLoading: false,  //加载中
@@ -84,7 +86,8 @@ export default {
         page: 1,
         limit: 20,
         title: '',
-        author: ''
+        author: '',
+        value: 'asc',
       }
     }
   },
@@ -99,9 +102,11 @@ export default {
       .then(response => {
         // console.log(response); //mock已经插入到前端流程中了
         this.list = response.data.list
-        this.total = response.data.total
+        this.total = response.data.total        
       })
+      
     },
+    
     handleFilgter() {
       // Axios.get('/vue-element-admin/article/list', {
       //   params:this.listQuery

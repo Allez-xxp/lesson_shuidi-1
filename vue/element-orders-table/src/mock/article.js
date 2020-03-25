@@ -36,15 +36,21 @@ Mock.mock(new RegExp('/vue-element-admin/article/list'), 'get', (config)=>{
     console.log(config);
     // 要实现就输出20条 我们的list要根据params 来取分页
     //怎么到url里面取page和limit
-    const { page=1, limit=20,title, author} = param2Obj(config.url) //把url存为一个json对象，然后解构出来
+    const { page=1, limit=20,title, author, value} = param2Obj(config.url) //把url存为一个json对象，然后解构出来
     //根据各种可以查询
     let mockList = list.filter(item => {
         // 条件一个个加，
         if (title && item.title.indexOf(title) < 0) return false;
         if (author && item.author.indexOf(author) < 0) return false;
-        // .......
-        return true;
+        return true
       });
+        if(value) {
+          value == 'asc' && mockList.sort((a,b) => a.id - b.id)
+          value == 'desc' && mockList.sort((a,b) => b.id - a.id)
+        } 
+        // .......
+        
+     
 
     // console.log(page, limit);
     const pageList = list.filter((item,index) =>index < limit*page && index >= limit*(page-1)); //拿出某页的数据 过滤 为true就是要的
@@ -63,7 +69,7 @@ Mock.mock(new RegExp('/vue-element-admin/article/list'), 'get', (config)=>{
         //         return parseInt(b.id)-parseInt(a.id)
         //     }
         // }),
-        list: pageList,
+        list: mockList,
         // total: count
         total: mockList.lengths
     }

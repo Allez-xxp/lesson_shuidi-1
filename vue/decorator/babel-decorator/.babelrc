@@ -1,0 +1,14 @@
+//是babel的配置文件
+// proposal是还在提议之中的，所以都要加一个@
+// lengacy是说特性都支持
+{
+    //之前有预处理 "presets": [], 
+    "plugins": [
+        ["@babel/plugin-proposal-decorators", {  //decorators降级为es5也能执行的
+            "legacy":true
+        }],
+        ["@babel/plugin-proposal-class-properties", {
+            "loose": true
+        }]
+    ]
+}

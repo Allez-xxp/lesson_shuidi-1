@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      border: 1px solid red;
+    }
+    .box1{
+        /* 告诉GPO 即将有一个属性要改变了，让GPO准备好 */
+        /* 3. backface-visibility:hidden; */
+        /* 4. 重叠 */
+        /* z-index是改变y轴的顺序 调整谁在上面，就是把某个整体设一个层级,不能用来提升元素为独立的图层 */
+        /* 加position：relative 再加z-index就能用了 */
+        will-change: transform; 
+        /* 用这个也可以 transform: translate3d(60px, 0, 0); */
+        z-index: 1;
+        position: relative;
+        background-color: blue;
+
+    }
+    .box2{
+        /* 加个translate3d将box2提升为独立的一层 */
+        transform: translate3d(60px, 0, 0);
+        z-index: 3;
+        position: relative;
+        background-color: black;
+    }
+  </style>
+</head>
+<body>
+  <div class="box box1">
+    box1
+  </div>
+  <div class="box box2">
+    box2
+  </div>
+  <script>
+      //第一个盒子3秒后移动位置
+      //box1和box2不在一层是因为，box1有一个translate3d
+    const box = document.querySelector('.box');
+    setTimeout(() => {
+      box.style.transform = 'translate3d(60px, 0, 0)';
+    }, 3000);
+  </script>
+</body>
+</html>

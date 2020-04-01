@@ -1,0 +1,22 @@
+{
+  "name": "demo1",
+  "version": "1.0.0",
+  "description": "- es6 node babel loader\r - webpack 代表着当下前端生产工艺\r 如何用node写出一个webpack",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack",
+    "build": "cross-env NODE_ENV=production webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.42.1"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.2",
+    "css-loader": "^3.4.2",
+    "webpack-chain": "^6.4.0",
+    "webpack-cli": "^3.3.11"
+  }
+}

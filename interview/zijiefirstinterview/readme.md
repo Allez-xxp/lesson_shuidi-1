@@ -121,6 +121,35 @@ Animal.prototype.say = function () {
 };
 const Cat = Animal.bind(null, 'cat');
 const cat = new Cat('White');
-if(cat.say() === 'I\'m a white cat' && cat instanceof Cat) {
-    console.log('success');
+if (cat.say() === 'I\'m a white cat' &&
+  cat instanceof Cat && cat instanceof Animal) {
+  console.log('success');
 }
+
+
+## this
+es5普通函数
+1. 不加任何修饰，调用函数，默认this指向全局，浏览器中是window
+foo();
+2. 加 下面的，就指向第一个参数
+foo.call()
+foo.apply()
+foo.bind()
+3. 定义了对象
+对象.  谁调用它就指向那里 obj.foo() obj调用，就指向obj
+4. new
+function Bar() {
+    //this指向谁，a这个属性到底应该加给谁
+    this.a = 123
+}
+// 当new的时候 this的指向才确定下来 此时bar上面就多了一个a属性
+const bar = new Bar() //new的时候this就绑定给了bar
+这就是面向对象的好处
+
+- 假如我们的函数 即被bind改变this，又被new改变this，这几个改变this有什么优先级吗？
+有的 从小到大1-》2-》3-》4  new的是最高的
+可以测试一下
+
+## bind
+1. bind.html  bind.js
+2. 加强版bind 我们的bind能不能满足需求呢?

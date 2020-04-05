@@ -33,9 +33,9 @@ DoubleLinkedList.prototype.addNode = function(node) {
 //移除结点
 DoubleLinkedList.prototype.removeNode = function(node) {
     //当前结点的前结点的next指向当前结点的next
-    this.head.next = node.next;
+    node.pre.next = node.next;
     //当前结点的后节点的前结点，要重新指向，指向当前结点的前结点
-    this.head.next.pre = node.pre;
+    node.next.pre = node.pre;
 }
 //定义LFU类 缓存的数据结构
 var LFUCache = function(capacity) {
@@ -59,7 +59,9 @@ LFUCache.prototype.get = function(key) {
 
 LFUCache.prototype.put = function(key, value) {
     //如果刚开始，容量就是0，直接退出
-    if(this.capacity === 0) return
+    if(this.capacity === 0) {
+        return
+    }
     //去缓存中找对应key的结点
     const node = this.cacheMap.get(key);
     //如果有,就更新值和使用频率
@@ -79,14 +81,14 @@ LFUCache.prototype.put = function(key, value) {
         }
         //没满的话，就直接存
         // 将该值封装成节点并放进 cacheMap 中
-        const newNode = new Node();
-        this.cacheMap.set(newNode);
+        const newNode = new Node(key, value);
+        this.cacheMap.set(key, newNode);
         // 同时需要将该节点插入 freqMap 中频率最小的双向链表中
         // 获取使用频率为 1 的双向链表
         let linkedList = this.countMap.get(1);
         // 若使用频率为 1 的双向链表是空的，则创建该链表并放进 freqMap 中
         if(!linkedList) {
-            linkedList = new DoubleLinkedList; 
+            linkedList = new DoubleLinkedList(); 
             this.countMap.set(1, linkedList);
         }
         // 将新节点放入双向链表中，同时更新 size / minCount
@@ -94,6 +96,7 @@ LFUCache.prototype.put = function(key, value) {
         this.size++
         this.minCount = 1
     }
+    //控制使用频率
     LFUCache.prototype.incFreq = function(node) {
         // 把该节点从旧频率对应的链表中移除，然后放进新频率对应的链表中
         // 获取该节点的使用频率
@@ -105,25 +108,24 @@ LFUCache.prototype.put = function(key, value) {
         // 同时满足以下两种情况时，更新 count 的值
         // 1. 旧频率等于最小频率
         // 2. 该链表为空链表
-        if(count === this.minCount && linkedList.head.next === linkedList.tail.pre) {
+        if(count === this.minCount && linkedList.head.next === linkedList.tail) {
             this.minCount = count + 1;
         }
         // 更新该节点的使用次数
         node.count++
         //获取新频率对应的链表
         linkedList = this.countMap.get(count+1);
-        // 如果链表为空，则需要新建链表，并将其放入 freqMap
+        // 如果链表为空，则需要新建链表，并将其放入 countMap
         if (!linkedList) {
-            linkedList = new DoublyLinkedList()
+            linkedList = new DoubleLinkedList()
             this.countMap.set(count + 1, linkedList)
         }
         // 将新频率的节点放进链表中
-        linkedList.addNode(node)
-     
+        linkedList.addNode(node)    
     }
 
 };
-//控制使用频率
+
 
 
 var cache = new LFUCache(2)

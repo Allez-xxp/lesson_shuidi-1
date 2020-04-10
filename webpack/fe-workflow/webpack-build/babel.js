@@ -1,6 +1,7 @@
 // babel 提供一些编译
 //为什么不是.babelrc?
-module.exports =function() {
+module.exports =function({ version }) {
+    console.log(version,'version++');
     //返回的配置项
     return {
         'presets': [   //预处理

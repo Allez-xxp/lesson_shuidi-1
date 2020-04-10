@@ -1,5 +1,6 @@
 // console.log('长安歌');
-require('./src/index.css')
+import TS from './ts/index.ts'  //typescript  把js写成Java的 在js基础上加了些类型声明
+// require('./src/index.css')
 // 2. 引入css文件 webpack bundler 一切静态资源皆可打包
 //const es6->es5  babel有个env 按环境进行预处理
 const h2 = document.createElement('h2');

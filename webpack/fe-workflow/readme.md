@@ -44,3 +44,33 @@ lib工具目录 递归查找配置文件，挂在config（也就是webpack-chain
 5. lib中把webpack的module放在config目录下 分不同的目录，使一个文件一件事
 需要lib提供findSync方法，把所有的js文件组成一个数组输出出来，挂载到config中
 文件的api
+
+
+# 可拔插的webpack插件
+postcss： https://www.cnblogs.com/tugenhua0707/p/9478921.html
+webpack是一个打包器 并在生产流程中转化文件 变成最终产品
+- babel化
+要处理的：
+js 的超级 tabscript 我们都用babel来编译
+- css  压缩 stylus -> css
+postcss?
+- htmltemplate
+可拔插
+
+build目录下新建base.js
+
+webpack 通过module 将编译的事务，可拔插地loader进相应的模块进行处理
+由此实现webpack + 其他模块的生态链 webpack已经占据了工作流地生态位
+每个模块交给不同的处理 比如js交给babel
+webpack module配置模块
+在每个模块中有配置流程
+1. test  /.js$/
+2. 再用loader 加载进来
+3. loader也有配置项
+
+
+ts 和 js是一家的， ts是js的超集
+ts有类型声明的js 降低js出错率
+let a = "123" a=true  这是不允许的
+ts在类型生命的时候 
+let a: string = "123" a=true //就杜绝了这种错误

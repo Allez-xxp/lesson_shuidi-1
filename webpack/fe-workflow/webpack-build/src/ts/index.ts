@@ -1,7 +1,7 @@
 export default  class A {  //es6的模块化
     constructor() {
-        const a: string = '123' //sting是个常量 不能修改了 不能成boolead
-        // a = true //这个就不能用了
+        const a: string = '123ts' //sting是个常量 不能修改了 不能成boolead
+        // a = true //这个就不能用了不能修改 因为此时a是一个const
         console.log(a)
         //编译到结果中
         //A是个类 能被实例化

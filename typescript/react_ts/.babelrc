@@ -1,0 +1,10 @@
+{
+    "presets": [
+        [
+            "env", //根据env进行相应的转译
+            {
+                "modules": false
+            }
+        ]
+    ]
+}

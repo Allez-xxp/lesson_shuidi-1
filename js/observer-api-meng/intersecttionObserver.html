@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img{
+            margin-top: 1500px;
+            /* margin-bottom: 1500px; */
+            width: 300px;
+            height: 255px;
+            border: 1px solid #000;
+            /* 图片是行内元素，设置宽高是不可以的，所以设置为行块元素 */
+            
+        }
+        .wrapper{
+            width: 500px;
+            height: 500px;
+            /* 超出就滚动 */
+            overflow: scroll;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+    <!-- 图片懒加载，让img变成一个很小的占位符，真实的src藏在后面 target-src -->
+    <img src="default.png" 
+    target-src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2473690265,2444464417&fm=26&gp=0.jpg" alt="">
+    <img src="default.png" 
+    target-src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2734134430,1646644745&fm=26&gp=0.jpg" alt="">
+    </div>
+    <script>
+        // 用交叉观察者判断有没有真实地出现在浏览器的可见区域内 用回调，和浏览器有交叉的元素都通知我们
+        const observer = new IntersectionObserver(function(entry) { 
+            console.log(entry);
+            entry.forEach((node)=>{ //拿到每个节点
+                if(node.isIntersecting) { //如果有交叉 true //这里只拿了进入的时候的，还可以有离开的时候
+                    // console.log(node.target.isIntersecting) 可以发现隐藏了会输出false
+                    console.log('我出现了'); //测试阀值
+                    // target-src取下来 获取属性getAttribute node.target指的是这个图片
+                    const targetSrc  = node.target.getAttribute('target-src');
+                    node.target.src = targetSrc;
+                    //加载了src后图片就显示了，之后我就不想再观察他了，要解除观察
+                    observer.unobserve(node.target);  //相当于vue生命周期的distory
+                }
+            })
+        },{ //第二个参数是个对象，阀值（出现的范围）是个数组，可以传多个，只要到达其中的值，就会出现一次
+            // threshold:[1] //0~1 1是100%，出现了100%才定义为出现了
+            // threshold: [1, 0.5] //有几个就告诉几次
+            //还有一个属性
+            rootMargin: '0px 0px 100px 0px',  //距离root这个元素的margin 也是上右下左 没看到元素 但因为被往上挤了mb的排列方式放上挪了100px 但还是他还是在原来的位置
+            //就是让我们计算某个元素出现在可视区之内，是按照margin的规则排列之后计算的（不安原本的距离计算）
+            //作用：让我们提前100px加载
+            //还有一个属性
+            root:document.querySelector('.wrapper') //决定相对于谁来滚动 不加就是相对于整个window滚动 //加一个div 现在就是对于div滚动 
+
+        })
+        //选中图片，观察图片，当图片出现在可视区之内，就通知我们，通过回调来通知
+        // const img = document.querySelector('img');  //选择的img图片是观察的元素，但只对第一张图片观察了，，所以换一下
+        const img = document.querySelectorAll('img');
+        //无论有多少个图片，都foreach 观察一下
+        img.forEach(item => {
+            observer.observe(item);
+        })
+        //但是放第二张图的时候 第二张图不加载了，为什么？
+    </script>
+</body>
+</html>

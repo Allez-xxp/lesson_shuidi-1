@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="name"></div>
+    <script>
+        let name = 'wzh';
+        const node = document.querySelector('name')
+        function render() {
+            node.innerHTML = name //或者用render包一下，更明显
+        }
+        let promise = Promise.resolve(); //3 一个立即resolve的promise
+        promise.then(render); //这样也能渲染 但是只渲染一次了
+        //等数据变化完成再渲染
+        setTimeout(render); //4. 这个也是这个思想
+        for (let i = 0; i< 10000; i++) {
+            //要更新10000次
+            name = i;
+            //数据变了，页面渲染
+            // node.innerHTML = name //1 // 或者用render包一下，更明显
+            // render();vue会把render放到缓存中 //2
+        }
+    </script>
+</body>
+</html>

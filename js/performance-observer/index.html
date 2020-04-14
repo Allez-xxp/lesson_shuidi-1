@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2473690265,2444464417&fm=26&gp=0.jpg" alt="">
+    <script>
+        // //这是之前的api，
+        // // 缺点：getEntries是可以拿到页面加载的性能指标的，但是只能拿到js执行的时候当前这个时间节点以前发生的性能指标，
+        // //(tcp握手，网页加载)
+        // performance
+        // .getEntries()  //性能指标//很老的用法
+        // .forEach(e => {
+        //     console.table(e)  //输出成表格
+        // })
+        // //这个js往后的性能就拿不到了，比如：
+        // const img = document.createAttribute('img'); //创建一个img然后扶植src
+        // img.src = 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2734134430,1646644745&fm=26&gp=0.jpg';
+        // document.body.appendChild(img);
+        // //这个img的性能指标就拿不到了
+
+        //怎么解决？performanse-observer 针对之前的api更
+        //发现图片加载的时候，主动的把图片信息发送给我
+        const observer = new PerformanceObserver((lists)=> {
+            //拿到所有发生resolve时候的指标
+            lists.getEntries().forEach((entry) => {
+                console.table(entry);
+                // //重点要记得：
+                // console.log('TCP 耗时',entry.connectEnd - entry.connectStart) //我们这个网页 别人输入url的tcp耗时
+                // console.log('DOM 解析耗时', entry.domInteractive - entry.responseEnd)//DOM解析耗时 响应结束就开始计时
+                // console.log('页面完全加载耗时', entry.loadEventStart - entry.fetchStart) //fetchStart页面开始加载的时候 loadEventStart就是onload事件开始执行的时候拿到的时间点 loadEventEnd执行结束的时候
+            })
+        });
+        observer.observe({
+            //对什么感兴趣 写什么            
+            // entryTypes: ['resource']  //有资源加载的时候就主动说
+            // entryTypes: ['paint']
+            // entryTypes: ['navigation'] //"PerformanceNavigationTiming"
+            entryTypes: ['measure','mark','longtask'] //longtask只有chrome支持
+        })
+        //写一个长任务
+        //测量这个for
+        performance.mark('cal-start'); //开始的时候打个点
+        let a;
+        for(let i = 0; i < 10000000; i++) {
+            //长任务
+            a = Math.random()
+        }
+        performance.mark('cal-end');
+        performance.measure('for-spend', 'cal-start', 'cal-end')
+        // mark手动拿到的是时间相对更准
+
+        ///类比图片懒加载的时候 一种是自己不停地监听 scroll不停地计算 另一种是主动的 IS
+        //paint:FP 页面第一次渲染的时候。渲染第一个像素点的时候 FCP:first contentful paint强调内容 内容开始绘制的时候
+        //FMP:first-meaningful-paint 第一次有意义的内容绘制 比如掘金的文章列表 不是固定的 每个网页都有自己的侧重点
+        //dcl：DOM content loaded
+        // 量化页面性能数据：页面很快 / FP是多少毫秒 / FCP是多少毫秒
+        //性能优化，优化完了也有个优化对比 FCP？？
+        const img = document.createAttribute('img'); //创建一个img然后扶植src
+        img.src = 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2734134430,1646644745&fm=26&gp=0.jpg';
+        document.body.appendChild(img);
+        // 整个页面加载完：window.onload
+        window.onload = function() {
+            //dom结构生成时的一个时间戳：domComplate
+            //需要执行的脚本执行的时间 dom
+
+        }
+        //这个img的性能指标就拿不到了
+    </script>
+</body>
+</html>

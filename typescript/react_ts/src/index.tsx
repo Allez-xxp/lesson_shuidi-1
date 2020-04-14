@@ -4,14 +4,16 @@
 // 进入路口 先把前面这两个先打包，然后把HelloComponent进入依赖，最后所有的文件都是在一个大函数中，从前到后执行
 //有了依赖关系，但此时还不被webpack所理解，所以在webpack.config.js中加入.tsx
 //1
-import * as React from 'react'; //就跟vue的import一样,引入react
+import * as React from 'react'; //就跟vue的import一样,引入react //mvvm模板编译
 //2
-import * as ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom'; //负责将组件与react-dom挂载起来
 //3
 import { HelloComponent } from './hello'; 
+import { AppRouter } from './router'; 
 console.log(HelloComponent);
 
-// ReactDOM.render(
-//     <HelloComponent />,
-//     document.getElementById('root')
-// )
+ReactDOM.render(
+    // <HelloComponent />,
+    <AppRouter></AppRouter>
+    document.getElementById('root')
+)

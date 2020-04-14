@@ -94,4 +94,54 @@ You may need an appropriate loader to handle this file type, currently no loader
 |             Hello 你好！
 |         </h2>
  @ ./index.ts 5:14-32
-证明文件进入到了依赖关系中了，同时在webpack.congfig.js中在extensions中加入了tsx
+证明文件进入到了依赖关系中了，同时在webpack.congfig.js中在extensions中加入了tsx,然后在rules中没有匹配到.tsx的解析
+
+课后作业：
+尝试在extension不加tsx,让它还是能编译；
+请实现 react react-dom 单独 vendor 把包，求打卡；
+看render的语法 
+
+## 
+依赖：
+"@types/react": "^16.9.34",
+"@types/react-dom": "^16.9.6",
+"awesome-typescript-loader": "^5.2.1",
+"babel-core": "^6.26.3",
+"babel-loader": "^8.1.0",
+"babel-preset-env": "^1.7.0",
+"bootstrap": "^4.4.1",
+"css-loader": "^3.5.2",
+"html-webpack-plugin": "^4.2.0",
+"mini-css-extract-plugin": "^0.9.0",
+"react": "^16.13.1",
+"react-dom": "^16.13.1",
+"typescript": "^3.8.3",
+"webpack": "^4.42.1",
+"webpack-cli": "^3.3.11",
+"webpack-dev-server": "^3.10.3"
+之前在webpack.config.js中没有关于tsx的  我们在这里加这个就行      
+1.  test: /\.tsx?$/,//x可以出现0次或一次
+2. app: './index.tsx', //入口 不只是一个 webpack的打包入口可以有多个 //把入口文件index.ts改成tsx一下
+tsx文件，react独有的文件 jsx的语法表达文件
+因为我们要在路口文件里就使用jsx语法
+3. 再加一个tsconfig.json配置文件 jsx->tsx
+就像ts->js一样，也会有一个配置
+打包的时候 默认会找这个配置文件
+5. tsx在工作流中是如何完成编译支持的？
+在resolve.extensions中支持tsx->module, test  .tsx?->awesome-typescript-loader->tsconfig.json这个配置只能中走到： jsx->react->babel
+jsx是由react表达模板的
+jsx 有良好表现的template
+
+昨天的作业：
+vendor：
+为什么dist目录不删除，然后再生成？历史版本都留下，利于回滚代码
+
+- 新建src/model/memberEntity.ts
+- 新建src/model/index.ts
+- 新建src/router.tsx
+写完了 要在index.tsx挂载组件  路由接管组件，那就是路由接管一切
+import { AppRouter } from './router'; 
+<AppRouter></AppRouter>
+
+
+

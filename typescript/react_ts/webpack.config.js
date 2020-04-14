@@ -10,7 +10,13 @@ module.exports = {
    extensions: ['.js', '.ts', '.tsx'],  //以后缀名作为声明 ts ts也是一种后缀，是js的超集 还能声明.style .css
  },
  entry: {
-   app: './index.ts', //入口 不只是一个 webpack的打包入口可以有多个
+  //  app: './index.ts', //入口 不只是一个 webpack的打包入口可以有多个
+   app: './index.tsx', //入口 不只是一个 webpack的打包入口可以有多个 //改成tsx一下
+   vendor: [ //抽离出来依赖的库 单独打包 是单独的依赖关系链
+     'react',
+     'react-dom',
+     'react-router-dom'
+   ],
    vendorStyles: [   //bootstrap是css的一个框架 用到了那就也要打包//开发的时候主要的是业务代码在改变，但是项目的框架是要被打包的，但是不会被修改
      '../node_modules/bootstrap/dist/css/bootstrap.css', //../有了上下文环境后的好处 //css的打包入口
    ], //但是应该和业务代码区分开来，单独打包
@@ -22,7 +28,8 @@ module.exports = {
  module: {  //异步的 加工厂 根据不同的后缀加工 根据不同后缀的文件进行不同的打包
    rules: [ //test规则
      {
-       test: /\.ts$/,
+      //  test: /\.ts$ |\.tsx$/,
+       test: /\.tsx?$/,
        exclude: /node_modules/, //要装
        loader: 'awesome-typescript-loader',  //ts->js ->env的js (react中显示ts的一个标配，然后再由它来babel)
        options: {  //一个选项  .ts->.js->babel

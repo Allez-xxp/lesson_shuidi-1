@@ -1,0 +1,86 @@
+<!-- bootCDN下来的连接 -->
+<script src="https://cdn.bootcss.com/lodash.js/4.17.15/lodash.min.js"></script>
+<script>
+    //纯函数 函数式编程提倡多写纯函数
+    //它是哪产生的 是个数学家提出的 FP
+    //数学上的函数：f(x) = x^2 +b ...
+    //纯函数就是没有任何副作用，同样的输入一定会有同样的输出
+    //什么叫纯函数？
+    const add = (a, b) => a + b; //同样的输入，同样的输出
+    // add(1,2) => 3 //结果是明确的 调用多少次，都是这个（输入确定了，那么输出也就确定了）
+    // 下面这个就非常不纯
+    // let c = 100;
+    // const add1(a, b) => a + b + c;
+    // add1(10,20) => 130
+    // c=200
+    // add1(10,20) =>130?不是了，因为不再是130了
+
+    const add3 = (a,b)=>{
+        //副作用，会对外部环境造成影响的也是不纯的
+        c = 300; //1.修改了外部的变量
+        console.log(c); //2.有了额外的输出
+        return  a + b;
+    }
+    //函数式编程是react带火的
+    //平常的业务代码中（增删改查）不是全部用函数式编程，只是可能会用到FP的其中几个思想
+    //node中用的就更少了 因为高阶函数其实都是大量的闭包 但还是有用的
+    // 下面的纯吗？不纯，因为依赖了外部的index.html，可能会因为外部的改变而变
+    fs.readFile('./index.html', 'utf8', (err, res) => {
+        console.log(res);
+    })
+    // Math.random(); Date.now()也不是
+    //优点要充分发挥：
+    // 1. 非常利于测试
+    expect(add(10,20).equal(30)) //不依赖于任何东西，输入只跟两个形参有关
+    //而之前利用了外部变量的add ，测试的之前还要先准备好外部变量。
+    // 2. 易于缓存，写递归的时候会缓存，有重复计算的缓存类似
+    // 同样的输入，会有同样的输出 计算一次后就能把结果缓存，下次就可以直接用了。
+
+    // lodish的memoize 缓存功能
+    function min(a,b) { //min 发生重复计算的话，就输出re cal
+        console.log('re cal');
+        return a - b;
+    }
+    console.log(min(5, 4));
+    console.log(min(5, 4));
+    console.log(min(5, 4));
+    //add有缓存功能：
+    // 不会重复计算了
+    const mMin = _.memoize(min);
+    console.log(mMin(5, 4));
+    console.log(mMin(5, 4));
+    console.log(mMin(5, 4));
+    // memoize怎么实现？为什么套一层就有缓存的功能了？
+    let map = {}
+    //上面是针对单个函数的，怎么改造？针对多个函数
+    function minMemoize(a, b) {
+    let key = `${a}${b}`;
+    if (map[key] !== undefined) return map[key]
+    console.log('re cal');
+    let res = a - b;
+    // 缓存一下, 依据什么东西？？
+    map[key] = res;
+    return res;
+  }
+  function memoize(fun) {
+    let map = {};
+    // 带有缓存
+    return function(...args) {
+      // fun 需要的 args
+      let key = JSON.stringify(args);
+      if (map[key] !== undefined) return map[key];
+      // 真正的计算
+      let res = fun(...args)
+      // 缓存一下
+      map[key] = res;
+      // 
+      return res;
+    }
+  }
+  const mMin1 = memoize(min);
+  console.log(mMin1(12, 12))
+  console.log(mMin1(12, 12))
+  console.log(mMin1(12, 12))
+
+  //节流
+</script>

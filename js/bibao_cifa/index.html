@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    //这里的单纯的函数包函数是不会造成闭包的 除非是在代码中引用了自由变量
+    // function foo() {
+    //   var a = 123
+    //   return function() {
+    //     debugger;//断点
+    //     let b = 123
+    //   }
+    // }
+    function foo() {
+      var a = 123
+      return function() {
+        let b = 123 + a;  //这里引用了外面的a，所以这里才是
+        debugger;//断点 单步跳过
+      }
+    }
+    //自由变量：函数中使用的，但既不是 arguments 也不是函数的局部变量的变量 比如上面的里面的a,对于里面的那个函数来说 他就是自由变量
+    
+    foo()();
+  </script>
+</body>
+</html>

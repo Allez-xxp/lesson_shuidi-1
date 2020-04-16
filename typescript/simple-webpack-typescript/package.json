@@ -1,0 +1,20 @@
+{
+  "name": "simple-webpack-typescript",
+  "version": "1.0.0",
+  "description": "- ts植入到webpack作为打包工具的vue/react开发框架中\r ts->webpack->vue/react\r ts是不能够被浏览器运行的，所以他要转变成为js，然后js还需babel一下\r ts->js->babel\r 先初始化一下nom init -y",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^7.0.0",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
+}

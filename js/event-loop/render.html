@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //写了两个背景色，打开发现是蓝色的，无论怎么刷新都是，为什么不是先是红色，再变成蓝色？
+            // document.body.style.backgroundColor = 'red';
+            // document.body.style.backgroundColor = 'blue'; 
+        //为什么?一直是蓝色的
+        // 编译完才执行，和display='none'一个道理？
+        // 这是一个渲染的过程，页面的渲染，脚本的执行，这都是event loop执行规则
+        // 上面两个代码，都是属于同一个task,
+        //浏览器有很多任务，不同的任务放去不同的对列，我们这里的属于同一个task类型的，会被放在task queue队列中去
+        //然后执行event loop那三步：
+        //1. 取出task执行
+        //2. microtask 这里没有
+        // 3. 渲染
+        // 属于同一任务，同一时机去执行了这两个，后一个bgc会覆盖前面一个，前一个在代码执行的时候被换成蓝色了
+        
+        // 换一下
+            // document.body.style.backgroundColor = 'red';
+            // setTimeout(()=>{    
+            //     document.body.style.backgroundColor = 'blue'; 
+            // })
+        //发现红色一闪而过
+        //不同的任务放去不同的对列
+        //task queue: [document.body.style.backgroundColor = 'red';]
+        //settimeout和red的是属于同一个宏任务，然后setTimeout的回调，也属于一个task,当成一个新的task
+        //现在主代码块有两个task
+        //开始处理process
+        //1:取出red, settimeout
+        //2.没有微任务（取所有的）
+        //3. 渲染红色接下来继续事件轮循，队列执行了一个，还有一个
+        //1. 再取一个 bule
+        //2. 
+        //3. 渲染 现在就是发生了两次渲染
+
+        //再加微任务
+        document.body.style.backgroundColor = 'red';
+        Promise.resolve().then(()=> {
+            document.body.style.backgroundColor = 'black';             
+        })
+        setTimeout(()=>{    
+            document.body.style.backgroundColor = 'blue'; 
+        })
+        //只能看到黑色一闪而过，然后是蓝色了
+        //task队列：red ; blue
+        //microtask: black
+        //两个宏，一个微任务
+        // 1. red
+        // 2. black 微任务全部取出来执行 这个微任务把之前的red覆盖了
+        // 3. render  black（红的被覆盖）
+        // 1. blue
+        // 2.
+        // 3. blue
+        // 一个task,所有的microtask,render;不断重复
+        // 只要不关闭这个窗口，这个事件轮循会一直存在
+        // 事件轮循while(event-loop) {一个task, microtask, render}
+    </script>
+</body>
+</html>

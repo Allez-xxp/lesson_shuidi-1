@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .modal{
+            /* 相对于整个窗口定位 */
+            position: fixed;
+            /* 铺满整个屏幕 */
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: rgba(0,0,0,.1);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // class Modal { //弹框
+        //     constructor(){
+        //         this.ele = document.createElement('div') //创建一个元素
+        //         this.ele.classList.add('modal') //加个类名
+        //     }
+        //     open(){
+        //         //把弹框添加到页面上去
+        //         document.body.appendChild(this.ele);
+        //         this.ele.style.display = 'block';                
+        //     }
+        //     content(content){
+        //         this.ele.innerHTML = content;
+        //     }
+        //     close(){
+        //         document.body.removeChild(this.ele);
+        //     }
+        // }        
+        // //new一个弹框能把弹框打开
+        // //弹框是相对整个页面来定位的
+        // let m = new Modal();
+        // m.open();
+        // m.content('内容');
+        // setTimeout(()=>{
+        //     m.close();
+        // },3000)
+        // //如果有多个弹框呢？
+        // // 难道再new一个？
+        // let m1 = new Modal();
+        // //这样的话就不是单例的,因为有两个实例了
+        // console.log(m === m1); //'false'
+        // //我们实际的弹框是单例模式的 实例是只有一个的，我们更改的只是弹出的内容
+
+        //单例
+        let instance = null; //实例
+        //还有一种方法：不把整个Modal暴露出去
+        function getSingleInstance(){ 
+            if(instance) return instance;
+            instance = new Modal();
+            return instance;
+        }
+        //这样就不能new Modal()只能用暴露出来的getSingleInstance
+        function Modal() {
+            this.ele = document.createElement('div') //创建一个元素
+            this.ele.classList.add('modal') //加个类名
+            //我们原来的类，new的最后有个return，如果我们return的是一个对象，那么我们new的结果就是这个对象
+            //我们要限制的就是这个 把new的行为修改掉，无论new几次，都只有instance这个对象
+            if(!instance) {
+                instance = this; //类中的this就是指向的实例 (new绑定this,this又指向实例)
+            }
+            return instance;
+        }
+        Modal.prototype.open = function() {  //不能用箭头函数，this会指向window
+            // 把弹框添加到页面上去
+            document.body.appendChild(this.ele);
+            this.ele.style.display = 'block'; 
+        }
+        Modal.prototype.content = function(content) {
+            this.ele.innerHTML = content;
+        }
+        Modal.prototype.close = function() {
+            document.body.removeChild(this.ele);
+        }
+        let m = new Modal();
+        m.open();
+        m.content('内容');
+        setTimeout(()=>{
+            m.close();
+        },3000)
+        let m1 = new Modal();
+        console.log(m === m1); //'true'
+    </script>
+</body>
+</html>

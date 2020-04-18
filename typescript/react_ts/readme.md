@@ -143,5 +143,39 @@ vendor：
 import { AppRouter } from './router'; 
 <AppRouter></AppRouter>
 
+# react 语法 + ts + 组件全家桶(router+redux+api类型约束)
+ant design pro
+https://pro.ant.design/index-cn
+
+tsx文件只负责输出模块，里面并没有jsx语法
+路由接管一切
+<{}>难点，怎么理解它 泛型
+1. App组件 作为我们的AppRouter全局的路由组件，接管整个应用，
+引入的路由/根组件（AppRouter），在两个文件引入与输出间，要进行类型定义 interface type
+App中主要是把Heater和基本的html输出做一个类型的合成，所以定义为 StatelessComponent
+2. React.StatelessComponent<{}> 定义文件（node_modules/@types/react/index.d.ts）看到
+type StatelessComponent<p = {}> = FunctionComponent<p>;
+这个叫泛型，等下他要接受的参数p默认是个空对象，也就是这个p是个对象
+泛型是可以重载的，函数参数不一样的时候，StatelessComponent类型也就不一样
+StatelessComponent<{}> 是一个由type关键字声明的类型，可以在index.d.ts查找到类型的定义 难点
+
+- bootstrap
+类名
+是通过extry多入口引入的
+
+- 关于路由router.tsx：
+ 我们的路由是作为一个组件挂载上去的(AppRouter)(挂载到index.tsx),在vueRouter中是一个根实例(就是app),然后路由作为它里面的一项放进去（return new Vue {router , store})。
+<HashRouter></HashRouter>
+安装react-devtools
+
+有关路由的exact
+https://segmentfault.com/a/1190000019130514
+<Route path="/" exact component={ App }></Route>
+<Route path="/about" component={ About }></Route>
+没有在/那里加exact是，若path="/about",那么也会把App也展示出来
+加了exact之后，会严格匹配到/about（）
+
+- Switch可以做到只匹配一个
+https://www.jianshu.com/p/1bb75e6f24ce
 
 

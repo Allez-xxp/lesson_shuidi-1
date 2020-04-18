@@ -14,6 +14,9 @@ console.log(HelloComponent);
 
 ReactDOM.render(
     // <HelloComponent />,
-    <AppRouter></AppRouter>
+    <AppRouter></AppRouter>,
     document.getElementById('root')
 )
+
+//关于路由：
+// 我们的路由是关于一个组件挂载上去的(AppRouter),在vueRouter中是一个根实例(就是app),然后路由作为它里面的

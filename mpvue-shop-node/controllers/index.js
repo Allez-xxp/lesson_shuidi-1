@@ -1,12 +1,13 @@
+// 写一个获取各种文件绝对路径的方法
 // 项目除了需要路由，还得要控制层，用来分别控制不同的功能需要用到的代码
 // 配置一个灵活性的，自动读取本地目录结构的方法。
-// lodash是js的一个库，封装了一些js的更好用的方法
+// lodash是js的一个库，封装了一些js的更好用的方法 比如lodash有defaults({'a':1},{'a': 3, 'b': 2})=>{'a': 1, 'b': 2}数据去重
 const _ =require('lodash')
 const fs= require('fs') //要读取文件必不可少
 const path = require('path') //path模块
 
 //映射某(d)文件夹下的文件为模块 
-
+//映射某文件的绝对路径下来
 const mapDir = d =>{
     //因为他拿到的可能是一个文件DOM树
     const tree ={}
@@ -23,7 +24,7 @@ const mapDir = d =>{
     });
     //映射文件
     files.forEach(file =>{
-        //拿到很多文件，因为我们只拿js文件就好了，所以号获取文件后缀名字
+        //拿到很多文件，因为我们只拿js文件就好了，所以要获取文件后缀名字
         if(path.extname(file) === '.js'){
             tree[path.basename(file,'.js')] =require(path.join(d,file)) //把d和file文件引入进来
         }

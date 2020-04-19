@@ -24,7 +24,7 @@ module.exports=async (ctx) =>{
 
     //人气推荐
     const hotGoods = await mysql('nideshop_goods').column('id','name','list_pic_url','retail_price','goods_brief').where({
-        is_hot: 1
+        is_hot: 1  //有上面那几个字段，并且is_hot都为1
     }).limit(5).select()
     //column:分别出字段
 
@@ -35,25 +35,25 @@ module.exports=async (ctx) =>{
     const categoryList = await mysql('nideshop_category').where({
         parent_id: 0 //为零的字段说明都是拿来作为标题展示的
     }).select()
+    //然后是 各种好物中里面都相应的有什么商品？
     const newCategoryList = []
     // 然后将在categoryList拿到的数据遍历,要把拿到的数据按不同的好物区分开来
     for(let i=0;i<categoryList.length;i++){
         let item = categoryList[i] //里面的每一项
         let childCategoryIds = await mysql('nideshop_category').where({
             parent_id:item.id //parent_id和item_id(当前这条数据的id相等的话)
-        }).column('id').select()
-        
-        //变成数组的形式,意味着如果我们拿到[1020000，1036002]
+        }).column('id').select() //我们就找出来        
+        //然后变成数组的形式,意味着如果我们拿到[1020000，1036002]
         childCategoryIds = childCategoryIds.map((item)=>{
             return item.id
         })
         // console.log(childCategoryIds);
         //拿到跟parent_id相等的数据之后去商品表中找到在childCatagoryIds里的7条数据
         const categoryGoods = await mysql('nideshop_goods').column('id','name','list_pic_url','retail_price').whereIn('category_id',childCategoryIds).limit(7).select()
-        newCategoryList.push({
+        newCategoryList.push({ //把我们要的挑出来 
             'id':item.id,
             'name':item.name,
-            'goodsList':categoryGoods
+            'goodsList':categoryGoods //list里的内容
         })
         //column找出这里面的字段，判断它们是否存在于（whereIn）childCatagoryIds这个数组当中，存在就去限制limit
     }

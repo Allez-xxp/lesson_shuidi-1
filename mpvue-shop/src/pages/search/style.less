@@ -37,12 +37,40 @@
             text-align: center;
         }
     }
+    .searchtips{
+        //它是浮起来了把其他的东西盖住了，层级最高盖住下面的内容
+        position: absolute;
+        width: 100%; //1.
+        top: 91rpx; //因为上面的搜索框已经占掉91了，所以这里要距离那里91
+        //左右拉扯
+        left: 0;
+        bottom: 0;
+        box-sizing: border-box; //2.加了这个就好让padding准确生效
+        padding: 0 32rpx; //3.前面给了width100%，这里又给了padding padding就会占据自己本身宽度（这三条配合使用）不会忘外撑
+        z-index: 9;
+        background-color: #fff;
+        //y轴超出的时候允许做一个滚动
+        overflow-y: scroll;
+        //为了兼容
+        -webkit-overflow-scrolling: touch; //因为是移动端 支持tuoch事件，不是鼠标的滚动事件
+        //然后打理里面的数据
+        div{
+            //里面的div是for循环出来的 
+            div{
+                padding: 20rpx 0;
+            }            
+        }
+        .nogoods{
+            text-align: center;//文字居中
+            margin-top: 300rpx;
+        }
+    }
     .history{
         background: #fff;
         padding: 32rpx;
         .t{
             display: flex; //这样历史纪录标签和垃圾桶就会去同一行
-            justify-content: space-between; //中间用空格空开
+            justify-content: space-between; //中间用空格撑开
             align-items: center;
             margin-bottom: 30rpx;
             div:nth-child(2){ //垃圾桶的样式
@@ -53,8 +81,8 @@
             }
         }
         .cont{
-            display: flex; //搜索记录有多个处在同一行
-            flex-wrap: wrap; ////规定灵活的项目在必要的时候拆行或拆列
+            display: flex; //搜索记录有多个，处在同一行
+            flex-wrap: wrap; //规定灵活的项目在必要的时候拆行或拆列
             div{
                 padding: 10rpx;
                 border: 1px solid #999;
@@ -67,6 +95,7 @@
             }
         }
     }
+    //热门搜索和历史纪录之间有一个间隔
     .hotsearch{
         margin-top: 20rpx;
     }

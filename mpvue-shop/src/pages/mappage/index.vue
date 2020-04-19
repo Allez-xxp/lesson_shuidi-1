@@ -4,6 +4,7 @@
           <input type="text" placeholder="搜索" focus="true" v-model="keywords" @input="bindInput">
       </div>
       <scroll-view :scroll-y="true" class="addcont" style="height:500rpx;">
+          <!-- 因为会搜索到很多条数据，所以我们一定放上一个v-for -->
           <div class="result" @touchstart="bindSearch(item.name)" v-for="(item,index) in tips" :key="index">
               <!-- 放搜索出来后跟南昌相关的地点信息 -->
               {{item.name}}
@@ -13,6 +14,7 @@
       <!-- 页面下面再放一张地图，用于显示当前自己的实时位置 -->
       <div class="map_container">
           <div class="title">显示当前位置:</div>
+          <!-- 小程序中已经封装好的一个标签map -->
           <map class="map" id="map" scale="16" :longitude="longitude" :latitude="latitude" :markers="markers"></map>
       </div>
   </div>
@@ -31,7 +33,7 @@ export default {
             keywords:''
         }
     },
-    mounted(){//生命周期(函数) 获取当前地理位置
+    mounted(){//生命周期(函数) 获取当前地理位置 一进来这个页面就显示地图
         this.getMapaddress()//调用这个方法
     },
     methods:{//是个属性 写方法
@@ -58,8 +60,8 @@ export default {
                         height:data[0].height
                     }
                     ]
-                    _this.markers=marker
-                    _this.longitude=data[0].longitude
+                    _this.markers=marker //用来装我们地图上的标记的
+                    _this.longitude=data[0].longitude //经度
                     _this.latitude=data[0].latitude
                 },
                 fail(info){
@@ -77,15 +79,19 @@ export default {
                 keywords: keywords,
                 location: '',
                 success:function(data){
-                    // console.log(data)
+                    // console.log(data) 与keywords有关的词条
                     if(data && data.tips){
+                        //把data.tips放到我们定义的tips上去
                         _this.tips=data.tips//并且他是放在scroll-view中的，可以上下滚动的
                     }
                 }
             })
         },
         bindSearch(cityName){
-            this.update({cityName:cityName})
+            // 多页面传值，也是非父子组件通信 store
+            //key值就是我们在数据源中我们放的名字，value是state中拿到的值
+            //因为是mutations中的方法，要直接拿来用的话需要引入
+            this.update({cityName:cityName})  //已经存进数据源了，然后回到首页
             wx.navigateBack({//返回页面
                 delta:1  //1代表返回上1个页面，2代表返回上两个页面
             });

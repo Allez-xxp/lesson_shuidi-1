@@ -5,7 +5,7 @@
     // less样式采用嵌套方式
     .search{
         width: 100%;
-        box-sizing: border-box;
+        box-sizing: border-box; //允许您以特定的方式定义匹配某个区域的特定元素。
         padding: 0 25rpx 0 10rpx;
         position: fixed;//相对于屏幕定位
         top: 0;
@@ -26,8 +26,9 @@
             font-size: 20rpx;
             padding-right: 15rpx;
         }
+        //input框
         div:nth-child(2){
-            flex: 1;
+            flex: 1; //父容器弹性布局，子容器就应该按照比例去继承当前父的宽高，父的-第一个子的
             position: relative;
 
             input{
@@ -55,7 +56,7 @@
         width: 100%;
         height: 417rpx;
         margin-top: 80rpx;
-        // less中的继承
+        // less中的继承&-
         &-container{
             width: 100%;
             height: 100%;
@@ -64,6 +65,7 @@
                 height: 100%;
                 .silder-image{
                     width: 100%;
+                    //不写height:100%;了因为可能会导致图片变形
                 }
             }
         }
@@ -128,8 +130,8 @@
             background-size: 100% 100%;
             text-align: center;
             display: flex;
-            justify-content: center;
-            align-items: center;//X Y轴都居中
+            justify-content: center;//用于设置或检索弹性盒子元素在主轴（横轴）方向上的对齐方式。提示：使用 align-content 属性对齐交叉轴上的各项（垂直）。
+            align-items: center;//X Y轴都居中 两个配合着用
             .top{
                 p{
                     color:#8c9bae;
@@ -180,7 +182,7 @@
                             font-size: 24rpx;
                             color: #8a8a8a;                             
                        }
-                       p:nth-child(4){ //第4个p标签
+                       p:nth-child(4){ //第4个p标签 父元素中的第二个元素的p标签
                         font-size: 24rpx;
                         color: #9c3232;
                        }
@@ -222,7 +224,7 @@
         &-top{
             text-align: center;
             padding: 36rpx;
-            vertical-align: middle; //放这个是因为里面还有一个icon
+            vertical-align: middle; //放这个是因为里面还有一个icon 把此元素放置在父元素的中部。
             .icon{
                 display: inline-block;//然后方便设置宽高
                 width: 32rpx;
@@ -250,7 +252,7 @@
                 }
                 .btom{
                     display: flex;//弹性布局
-                    justify-content: space-between;//图片间有间隔
+                    justify-content: space-between;//居两边对齐 中间间隔开图片间有间隔
                     margin-top: 42rpx;
                     width: 100%;
                     div:nth-child(1){ //btom里面第一个div
@@ -278,7 +280,7 @@
                     }
                 }
             }
-            li:last-child{ //最后一个li
+            li:last-child{ //最后一个li 因为我们前面每个li都只给了mgl,没有mgr
                 margin-right: 25rpx;
             }
         }

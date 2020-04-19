@@ -9,6 +9,8 @@ const store=new Vuex.Store({
     },
     mutations:{
         update(state,config){ //将数据源当中的所有的key值所对应的value值都替换成当调用update传进来的第二个参数里面的config[item]
+            //遍历config这个参数中的所有key值，会以一个数组的形式传给我们，我们再   用map再遍历一下
+            //用Object.keys()遍历对象中的所有的key值
             Object.keys(config).map((item,key)=>{
                 state[item]=config[item]  //拿到state数据源中每一个item->代表Object.keys返回的数组当中的每一个值也就是cityName
             })  //遍历对象(config这个参数)当中所有的key值,,会以一个数组的形式返回，用map再遍历一下

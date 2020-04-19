@@ -9,9 +9,11 @@
       </div>
     </div>
     <div class="swiper">
+      <!-- swiper是小程序中的标签，mpvue结合了，可以用 -->
       <swiper class="swiper-container" indicator-dots="true" autoplay="true" interval="3000" circular="true" duration="500">
         <block v-for="(item, index) in banner" :key="index">
           <swiper-item class="swiper-item">
+            <!-- src不是写死的用v-bind动态绑定 -->
             <image class="slide-image" :src="item.image_url" />
           </swiper-item>
         </block>
@@ -71,6 +73,7 @@
       <div class="newgoods-top" @click="goodsList('hot')">
         <div class="top">
           <!-- p{新品首发} -->
+          <!-- span这样放 左右两边就能都有空格了 -->
           <p>
             人气推荐
             <span></span>
@@ -127,6 +130,7 @@
           </div>
           <div>
             <div class="last">
+              <!-- 快捷键：p{好物}+tab -->
               <p>{{item.name}}好物</p>
               <span class="icon"></span>
             </div>
@@ -139,7 +143,7 @@
 
 <script>
 import amapFile from '../../utils/amap-wx.js'
-import { mapState,mapMutations } from 'vuex'
+import { mapState,mapMutations } from 'vuex'  //取数据源中的数据，有一个方法mapState
 import { get } from '../../utils'  //导入封装的get请求(在index.js里)
 // 后面不加index,因为会默认加上/index.js
 export default {
@@ -178,6 +182,7 @@ export default {
             wx.openSetting({
               success:res=>{
                 //获取授权位置信息
+                //写一个方法
                 _this.getCityName()
               }
             })
@@ -185,6 +190,7 @@ export default {
             wx.navigateTo({
               url:'/pages/mappage/main',
             });
+            //已经授权了 但是想看没授权的效果，我们加这个，看没获取到位置的默认位置
             // _this.cityName='北京'
             // _this.getCityName()
           }
@@ -197,28 +203,31 @@ export default {
     },
     getCityName(){
       let _this=this
+      //使用amapFile要引入，要下载微信小程序sdk,下载后安装到项目本地，然后引入
       var myAmapFun = new amapFile.AMapWX({key:'947040d1a5c8185746d3cd82f38f24c3'});
-      myAmapFun.getRegeo({
+      myAmapFun.getRegeo({ //高德地图获取地址的方法
         success:function(data){
           //成功回调
           console.log(data)
-          // ......
+          // ......如果是成功的话我们会显示当前位置
         },
         fail:function(info){
           //失败回调
           console.log(info)
+          // 获取失败的话我们就放上一个默认的地理位置
           // _this.cityName='北京'
+          //用到update要去引用mapMutations,解构出里面的方法
           _this.update({cityName:'北京'})
         }
       })
     },
-    
+    //用异步的方式，获取数据 //封装了接口请求在util/index.js中
     async getData(){
       // wx.request 封装接口请求，去utils
       // 这里是取数据源的，那就应该调用刚写的接口，那么就需要在当前页面引入get,post这两个方法
-      // 导航的banner图我们采用get方法，那么导入get
+      // 导航的banner图我们采用get方法，(请求banner图 不用传参只需要放一个url就行 )那么导入get 
       // 此时的get的url可以写成任何样子，因为此处的路径是等会做后端开发时自己定义的路径，记得等会要与后端的一致
-      const data=await get('/index/index') //后端必须有一个http://localhost:5757/lm/index/index
+      const data=await get('/index/index') //后端必须有一个http://localhost:5757/lm/index/index 这样的接口让我们使用
       // 这里的get方法是封装的请求
       // 拿数据
       console.log(data)//现在还看不到拿到的数据是什么，因为还没写后端的项目

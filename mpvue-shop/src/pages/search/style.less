@@ -27,8 +27,8 @@
                 margin-left: 10rpx;
             }
             .del{
-                width: 35rpx;
-                height: 35rpx;
+                width: 40rpx;
+                height: 40rpx;
                 padding: 0;
             }
         }
@@ -98,5 +98,98 @@
     //热门搜索和历史纪录之间有一个间隔
     .hotsearch{
         margin-top: 20rpx;
+    }
+    .goodsList{
+         //它是浮起来了把其他的东西盖住了，层级最高盖住下面的内容
+         position: absolute;
+         width: 100%; //1.
+         top: 91rpx; //因为上面的搜索框已经占掉91了，所以这里要距离那里91
+         //左右拉扯
+         left: 0;
+         bottom: 0;
+         box-sizing: border-box; //2.加了这个就好让padding准确生效
+         padding: 0 32rpx; //3.前面给了width100%，这里又给了padding padding就会占据自己本身宽度（这三条配合使用）不会忘外撑
+         z-index: 9;
+         background-color: #fff;
+         //y轴超出的时候允许做一个滚动
+         overflow-y: scroll;
+         //为了兼容
+         -webkit-overflow-scrolling: touch; //因为是移动端 支持tuoch事件，不是鼠标的滚动事件
+         .sortnav{
+             display: flex;//弹性布局，都去到同一行
+             width: 100%;
+             height: 78rpx;
+             line-height: 78rpx;//行高要跟height一样
+             background: #fff;
+             border-bottom: 1rpx solid #d9d9d9;
+             div{
+                //  flex: 1; //1：1：1继承父
+                //  text-align: center;
+                //或者写
+                 width: 250rpx;
+                 height: 100%;
+                 text-align: center;                 
+             }
+             .active{ //点击谁，谁就标红
+                 color: #b4282d;
+             }
+             .price { //价格上下键背景图
+                 background: url(//yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/no-3127092a69.png) 165rpx center no-repeat;
+                 background-size: 15rpx 21rpx;
+             }
+             .active.desc {
+                 background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/down-95e035f3e5.png) 165rpx center no-repeat;
+                 background-size: 15rpx 21rpx;
+             }
+             .active.asc {
+                 background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/up-636b92c0a5.png) 165rpx center no-repeat;
+                 background-size: 15rpx 21rpx;
+             }             
+         }      
+         .sortlist{
+            //商品列表
+            display: flex;//去同一行
+            justify-content: space-between;//中间用空格撑开
+            flex-wrap: wrap; //规定灵活的项目在必要的时候拆行或拆列
+            .item{//每件商品
+                box-sizing: border-box; //不加，然后你直接设w:50%的话，被撑开，会换行,因为我们还有空格
+                width: 50%;
+                padding: 15rpx 0;
+                text-align: center; //文字居中
+                background-color: #fff;
+                border-bottom: 1px solid #d9d9d9; //对于左边的盒子合理，右边的不行
+                border-right: 1px solid #d9d9d9;
+                
+                img{
+                    display: block;
+                    width: 302rpx;
+                    height: 302rpx;
+                    margin: 0 auto; //左右居中
+                }
+                .name{
+                    margin: 15rpx 0 22rpx 0;
+                    text-align: center;
+                    padding: 0 20rpx;
+                    font-size: 24rpx;
+                }
+                .price{
+                    text-align: center;
+                    font-size: 30rpx;
+                    color: #b4282d;
+                }
+            }
+            .item:nth-child(2n){ //所有右边的盒子（偶数）
+                border-right: none;
+            }
+            .item.active:nth-last-child(1){ //对于右边的盒子 //nth-last-child同时含有item和active这个类名的，最后一个容器（最后一行也就是倒数第一个和倒数第二个）
+                border-bottom: none;
+            }
+            .item.active:nth-last-child(2){ //对于右边的盒子 //nth-last-child同时含有item和active这个类名的，最后一个容器（最后一行也就是倒数第一个和倒数第二个）
+                border-bottom: none;
+            }
+            .item.none:last-child{//有item和none类名的，最后一个盒子
+                border-bottom: none;
+            }
+         } 
     }
 }

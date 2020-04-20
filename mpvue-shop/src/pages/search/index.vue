@@ -33,6 +33,8 @@
           <div @click="clearHistory"></div>
         </div>
         <!-- 展示曾经搜过的历史纪录 -->
+        <!-- :data-value="item.keyword"for之后 每个标签都会带上一个这样的属性，属性值分别是他相应的keyword，点击searchwords，这个事件参数
+        就能拿到e.currentTarget中的value，并且作为值给了post中的keyword，去做了接口请求，所以历史纪录会多出来相应的词条，又因为input框双向绑定了this.words,点击里面的词条，相应的内容也会被放在input框中 -->
         <div class="cont">
           <div v-for="(item,index) in historyData" :key="index" @click="searchWords" :data-value="item.keyword">
             {{item.keyword}}
@@ -51,7 +53,23 @@
           </div>
         </div>
       </div>
-      
+      <!-- 商品列表 -->
+     <div class="goodsList" v-if="listData.length !==0">
+         <!--放上综合，价格table(都能被点击的) 快捷键：div{综合} -->
+         <!-- 价格有一个上下箭头，单独加一个class -->
+         <div class="sortnav">
+           <div @click="changeTab(0)" :class="[0 === nowIndex ? 'active' : '']">综合</div>
+           <div @click="changeTab(1)" :class="[1 === nowIndex ? 'active' : '']" class="price">价格</div>
+           <div @click="changeTab(2)" :class="[2 === nowIndex ? 'active' : '']">分类</div>
+         </div>
+         <div class="sortlist">
+           <div class="item" v-for="(item,index) in listData" :key="index">
+             <img :src="item.list_pic_url" alt="">
+             <p class="name">{{item.name}}</p>
+             <p class="price">￥{{item.retail_price}}</p>
+           </div>
+         </div>
+      </div> 
   </div>
 </template>
 
@@ -64,7 +82,10 @@ export default {
       openid:'',
       hotData:[],
       historyData:[],
-      tipsData:[]  //专门用来装输入的提示语的
+      tipsData:[],  //专门用来装输入的提示语的
+      order: '',
+      listData:[],//装商品的
+      nowIndex:0 //默认一进来就是综合
     }
   },
   mounted (){
@@ -74,7 +95,7 @@ export default {
   },
   methods:{
     clearInput(){
-      this.words='shenm'
+      this.words=''
     },
     cancel(){
 
@@ -94,6 +115,9 @@ export default {
     },
     //取到input框当中的值，然后实时的去做接口请求
     async tipsearch(){
+      console.log(123);//没打印，说明点击历史纪录和热门搜索的时候，将内容放到input中去的时候，并没有触发input事件
+      // @input事件是必须要在input中实时输入的时候才会触发的，而直接通过点击地方将内容直接设置到input中的时候是不会触发输入事件的。
+
       //接口请求第一步，async+await + 接口请求的方法+接口+传过去的参数
       const data = await get('/search/helperaction', {
         keyword: this.words //拿到用户真实输入的内容然后去查询对应的关键字
@@ -125,6 +149,20 @@ export default {
     //routes/index.js->search/index写完给数据库添加搜索记录的接口之后，去浏览器5757/lm/search/addhistoryaction看看 not found,接口是需要传入参数的，所以我们在放上一个取历史搜索记录的方法。
     //取搜索记录(应该是实时出现的，也就是存的同时也要拿出来展示)
     this.getHotData()
+    this.getlistData()
+    },
+    async getlistData() {
+    //获取商品列表数据
+    // 调用接口请求将商品展示 跟输入提示语用的是同一个接口，因为
+      const data = await get('/search/helperaction', {
+        keyword: this.words,  //关键字，查找相应数据
+        order: this.order //数据源中记得加上//
+      })
+      // console.log(data); //出发了接口请求后会执行
+      //为数据源放数据
+      this.listData = data.keywords
+      // 如果商品列表已经出现页面上就不需要展示我们的输入补全提示了tips
+      this.tipsData = []
     },
     async getHotData(first){
       //热门搜索和历史纪录都是只能看自己的，所以一定要this.openid
@@ -135,6 +173,18 @@ export default {
       this.historyData = data.historyData
       this.hotData = data.hotKeywordList //要与后端的一致
       // console.log(data) //然后我们先去后端把indexaction接口定义出来。
+    },
+    changeTab(index) { //接受一个形参
+    // 数据源中放上一个初始数据nowIndex:0 //默认一进来就是综合,要标红，意味着要给综合加上active类名（样式中是这个）
+      this.nowIndex = index
+      //对于价格，还需要：
+      if( index === 1) { //会去重新做接口请求
+        this.order = this.order == 'asc'? 'desc' : 'asc' //将数据源中的重新赋值//然后那两个图片才会来回切换
+      } else {
+        //只有价格没被点击的时候，才都不显示
+        this.order = '' 
+      }
+      this.getlistData()
     }
   }
 }

@@ -1,0 +1,15 @@
+{
+  "name": "redux-base",
+  "version": "1.0.0",
+  "description": "TJ是koa得作者\r Dan Abramov是redux写出来的\r 什么是状态管理，有了这个有什么好处？\r let a = 123;\r //这个a就算应用的状态\r /**\r  * return (\r  * <div>{{a}}</>\r  * )\r  * 跟应用息息相关，都算状态\r  * state={\r  * b:46\r  * }也是\r  * \r  * redux/vuex 都要设计一套修改state流程 state:dispatch->action->mutation->state\r  * \r  * 要尽量避免全局部变量\r  * 在任何模块中都能获取（get)这个行为没关系，但是如果是修改，在任何模块中都能轻易把全局变量改掉，这是十分危险的\r  * \r  * 状态管理做的事：\r  * 在中间再加些步骤，不是随便就能改的，要经过这些步骤，中间也能观测到要修改的\r  * \r  * redux是怎么思想设置中间的每个环节的\r  */",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "redux": "^4.0.5"
+  }
+}

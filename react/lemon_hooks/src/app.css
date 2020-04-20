@@ -1,0 +1,6 @@
+body{
+    background: pink;
+}
+p{
+    color: xxx; /*这里p标签的状态有问题*/
+}

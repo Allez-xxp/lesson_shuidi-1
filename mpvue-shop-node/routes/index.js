@@ -51,5 +51,9 @@ router.post('/search/clearhistoryAction',controllers.search.index.clearHistoryAc
 
 // 搜索提示接口
 router.get('/search/helperaction',controllers.search.index.helperAction)
+
+//商品详情页
+router.get('/goods/detailaction',controllers.goods.index.detailAction) //然后后面是回调函数，我们直接放controllers
+
 //把router导入出去,app.js的router的引入才有用 看一眼代码有没有问题node app.js
 module.exports = router

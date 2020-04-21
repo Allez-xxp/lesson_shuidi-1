@@ -1,5 +1,6 @@
 {
-  "pages": [
+  "pages": [    
+    "pages/goods/main",
     "pages/search/main",
     "pages/index/main",
     "pages/topic/main",
@@ -10,6 +11,7 @@
     "pages/brandList/main",
     "pages/newgoods/main",
     "pages/topicdetail/main"
+
    
   ],
   "permission": {

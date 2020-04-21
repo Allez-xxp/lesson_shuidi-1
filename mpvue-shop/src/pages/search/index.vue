@@ -19,7 +19,7 @@
       <!-- v-if和v-for不能放在同一个dom结构中,那就在外面再加一层专门放if的div -->
       <div class="searchtips" v-if="words">
         <div v-if="tipsData.length !=0">
-          <div v-for="(item,index) in tipsData" :key="index" >
+          <div v-for="(item,index) in tipsData" :key="index" @click="searchWords" :data-value="item.name">
             {{item.name}}
           </div>
         </div>
@@ -63,7 +63,8 @@
            <div @click="changeTab(2)" :class="[2 === nowIndex ? 'active' : '']">分类</div>
          </div>
          <div class="sortlist">
-           <div class="item" v-for="(item,index) in listData" :key="index">
+           <!-- 还要区分一下点击的到底是哪一件商品所以点击事件上传一个参数,每一件商品都有自己的id,用id来区分 -->
+           <div @click="goodsDetail(item.id)" class="item" v-for="(item,index) in listData" :key="index">
              <img :src="item.list_pic_url" alt="">
              <p class="name">{{item.name}}</p>
              <p class="price">￥{{item.retail_price}}</p>
@@ -95,10 +96,16 @@ export default {
   },
   methods:{
     clearInput(){
-      this.words=''
+      this.words='',
+      // 还要让商品展示的页面隐藏
+      // 商品列表页面之所以会存在，是因为listData不是空数组，所以只需要把它变成空的就行，
+      this.listData = []
     },
     cancel(){
-
+      //返回上一个页面就行
+      wx.navigateBack({
+        delta: 1 //为几就是返回几层页面 //此时要把首页当成默认页面，才会从search页面跳回index页面
+      })
     },
    async clearHistory(){
       // 做接口请求
@@ -111,11 +118,14 @@ export default {
       }
     },
     inputFocus(){
-
+      // 再次聚焦的时候商品清空
+      this.listData = []
+      // 展示搜索提示信息
+      this.tipsearch()
     },
     //取到input框当中的值，然后实时的去做接口请求
     async tipsearch(){
-      console.log(123);//没打印，说明点击历史纪录和热门搜索的时候，将内容放到input中去的时候，并没有触发input事件
+      // console.log(123);//没打印，说明点击历史纪录和热门搜索的时候，将内容放到input中去的时候，并没有触发input事件
       // @input事件是必须要在input中实时输入的时候才会触发的，而直接通过点击地方将内容直接设置到input中的时候是不会触发输入事件的。
 
       //接口请求第一步，async+await + 接口请求的方法+接口+传过去的参数
@@ -123,7 +133,7 @@ export default {
         keyword: this.words //拿到用户真实输入的内容然后去查询对应的关键字
       })
       //调用了接口请求之后
-      console.log(data, 'tiptip') //这里的输出是接口请求之后穿过来的输出
+      // console.log(data, 'tiptip') //这里的输出是接口请求之后穿过来的输出
       //拿到了keywords数组,然后要把它保存下来，数据源中放上一个tipsData = []
       this.tipsData = data.keywords;
 
@@ -158,7 +168,7 @@ export default {
         keyword: this.words,  //关键字，查找相应数据
         order: this.order //数据源中记得加上//
       })
-      // console.log(data); //出发了接口请求后会执行
+      console.log(data); //出发了接口请求后会执行
       //为数据源放数据
       this.listData = data.keywords
       // 如果商品列表已经出现页面上就不需要展示我们的输入补全提示了tips
@@ -185,6 +195,11 @@ export default {
         this.order = '' 
       }
       this.getlistData()
+    },
+    goodsDetail(id) {
+      wx.navigateTo({
+        url: '/pages/goods/main?id' + id  //拼接一个id
+      })
     }
   }
 }

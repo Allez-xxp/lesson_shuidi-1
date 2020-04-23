@@ -109,3 +109,59 @@ yarn add react-three-renderer
 对于react@15.6.1支持，react-dom@15.6.1支持，three@0.86.0支持，所以要改一下依赖
 
 
+装饰器
+yarn add autobind-decorator --save-dev
+
+react中关于this bind
+// 1. 用箭头函数 有性能损耗,箭头函数会重复声明，构造里不会
+// 2. 用bind
+// 3. 构造函数声明时bind
+// 4. 装饰器 autobind
+- bind
+- constructor this... = this...bind(this)
+- () => 性能要求
+- autobind ->.babelrc plugin jsconfig.json
+decoration是ES8的，是个实验型属性
+在tsconfig中可以用,jsconfig中可以中，在这里面配置了，就能求掉警告
+typescript中这个decorator其实是他内建支持的一个模式，
+import autobind from 'autobind-decorator' //是一个库安装一下
+向函数内部注入了aotubind功能
+怎么让项目支持装饰器？
+.babelrc:
+```js
+"plugins": [
+        [
+            "@babel/plugin-proposal-decorators",{ //装一下这个插件 yarn add ... -D
+                "legacy": true
+            }
+        ]
+    ]
+```
+然后去掉红线：
+在tsconfig中可以用,jsconfig中可以中，在这里面配置了，就能求掉警告
+{
+    "compilerOptions": {
+      "experimentalDecorators": true //为ES装饰器启用实验性支持。
+    }
+}
+https://www.typescriptlang.org/docs/handbook/compiler-options.html
+[1]这些选项是实验性的。
+[2]这些选项仅在中被允许tsconfig.json，而不能通过命令行开关使用。
+  
+
+SyntaxError: D:\LESSION_SHUIDI\react\react-three\src\components\Game.js: Support for the experimental syntax 'classProperties' isn't currently enabled (10:22):
+也是一个实验语法，叫classProperties
+es7新特性
+- es6有了class关键字 还是基于原型的，class只是语法糖
+class又有新的特性支持了classProperties，es7新增的，
+可以在一个class最外面直接声明一个这样的属性
+static propTypes = {
+        width: PropTypes.number.isRequired, //传了的
+        height: PropTypes.number.isRequired,
+        // dfd: PropTypes.number.isRequired,
+    }
+.babelrc
+yarn add @babel/plugin-proposal-class-properties
+
+1:1   error  React.PropTypes is deprecated since React 15.5.0, use the npm module prop-types instead  react/no-deprecated
+yarn add prop-types

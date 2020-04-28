@@ -168,3 +168,41 @@ yarn add react react-dom
 yarn add @types/react @types/react-dom --save-dev //对类型进行检测
 
 webpack.config.js文件改了之后要重新启动。
+
+
+
+# react全家桶(react-router, redux) + ts 
+react全家桶比vue复杂  react-router-dom
+复杂性在一切皆组件，哪怕是router redux
+首先找到入口文件index.tsx
+vue是：
+new Vue({
+    el: '#root',
+    router,
+    store
+})
+翻译成react
+用react组件做
+yarn add react这个负责提供状态管理 react-redux这个负责将状态管理数据和react组件进行绑定
+yarn add react-router-dom
+路由接管整个应用
+在index.tsx
+import { AppRouter } from './router'; 
+路由本身也有tsx router.tsx
+// 引入路由组件
+// react-router-dom提供了路由组件，直接可以挂载到页面上
+// 因为路由对应的path对应的组件，最后还是要render到router-view（vue中）位置上进行渲染
+// 这个库就叫react-router-dom,然后路由对应的component也是要在（react-router)声明的位置上进行渲染 
+// 然后router.tsx这个组件他接管整个应用，然后这个应用最外层的框架都是由他开始的，安装一下
+import { Router, HashRouter } from 'react-router-dom'
+yarn add react-router-dom
+还需要装相应的@type
+在react中安装了react react-dom react-router-dom redux这些东西，都有它配套的@types
+可以使用这个类型的定义来约束组件 类型
+yarn add @types/react-router-dom @types/react-redux
+
+1. reducer
+在es6的Array数组中学习过reduce函数，它会将我们的数组慢慢减少，减到只有一个最后的结果（有一个计算总和的效果）
+reducer与之类似，就是一个状态通过操作后，最后只有一个状态，生成一个新的状态怎么理解？
+作为redux状态管理来说，他就是向组件提供共享状态，如果要修改必须要提供action(也就是commit) 他还有动态性 因为状态值会改变
+reducer 假设我们有一个状态，他有开 关状态，reducer就跟数组中的reduce的概念一样，他会经过reducer函数处理后将上一个阶段的状态（oldState) 一定会有一个唯一的状态返回

@@ -7,16 +7,18 @@
 import * as React from 'react'
 import * as ReactDom from 'react-dom';
 // import { HelloComponent } from './hello'
-import { App } from './app'; //构建一下根组件的概念
+// import { App } from './app'; //构建一下根组件的概念
+import { AppRouter } from './router'; 
+
 //要写在外面 react hooks
 // 定义了一个状态，到时候可以被共享状态的名字叫defaultUserName
 // 解构两个属性
-const [name, setName] = React.useState('defaultUserName');
+// const [name, setName] = React.useState('defaultUserName');
 
 ReactDom.render(
     // react hooks是可以超越redux  vuex的一个新特性，可以用react hooks的方式跨组件传值，共享状态
     // defaultUserName可以被组件共享状态 状态名字叫defaultUserName
     // <HelloComponent userName={name}/>,
-    <App></App>,
+    <AppRouter></AppRouter>,
     document.getElementById('root')
 )

@@ -1,0 +1,64 @@
+<script>
+    // let arr = [0, 1, 2, 3];
+
+    // arr.push(1);
+    // 监听push方法 就像是一个最小的原子 就是系统给我们的一个能力，已经不能再细分了
+
+    //如果要监听test的调用，直接在里面输出就行
+    // function test() {
+    //     console.log('test被调用了');
+    // }
+
+    // 但是push是一个原子的，内部不能再操作了 就要用到AOP的思想
+    // AOP是面向切面的编程，就行切西瓜的一个切面
+    // 代码中的切面
+    // test也可以作为一个整体来看
+    // 让test是个求和的函数。test就是一个整体
+    function test(a, b) {
+        // 把这个函数切开，
+        console.log('test发生了');//上层
+        return a + b;
+    }
+    // 这是狭义上的切面
+    // js中的切面，可以用模块划分
+    // push是一个整体性的原子的能不能像test一样切开？
+    // push 是定义在哪里的？Array.prototype.push()
+    // 1.保留一份最原始的方法
+    const originPush = Array.prototype.push
+    // 2.重写 重写了就破坏了push的功能
+    // 看看有什么破坏 原来push的行为已经被破坏了
+    Array.prototype.push = function() {
+        console.log('arr push called'); //可以监听了，但是原来的功能也被破坏了
+        // 3.没关系，原来的push我已经保留了，我只要恢复一下就行
+        // originPush();
+
+        // 4.但是有一个问题，报错：push.html:33 Uncaught TypeError: Cannot convert undefined or null to object
+        // 因为别人在定义push的时候，可能还考虑了内部this相关的操作
+        // 我们这样直接暴力调用是根本没有考虑this的，this是指向new完后的实例的
+        // 我们重写的this指向谁？谁调用就指向谁，
+        // 我们的push内部的this指向arr
+        // 我们原来的push的this也是谁调用就只想谁 + 还要考虑参数
+        originPush.apply(this, arguments);
+        // arguments apply是要求第二个参数把每个普通函数里面用数组的方式把参数传进去，但是参数个数不确定，所以有一个arguments对象
+        originPush.call(this, ...arguments);
+    }
+
+    // 另外数组变化可能有很多情况，push splice pop shift方法都差不多
+    // 上面是比较古老方法AOP
+
+    let arr = [0, 1, 2, 3];
+
+    arr.push(1);
+
+    // 关于arguments
+    // apply(this, arguments) apply的参数是数组
+    // call(this,...argument) //要展开 //call,不是对数组操作
+    function arg(a, b, c, d, e){
+        // console.log()
+        arg.apply(this, arguments);
+    }
+
+</script>
+<!-- 用dist才是浏览器能打开的 -->
+<script src="./dist/class.js"></script>
+

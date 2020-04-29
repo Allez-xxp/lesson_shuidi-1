@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 1.
+        //错误监控的一种方式，他只能捕获同步的错误，异步的就不行
+        //捕获意料之中的错 
+        // let obj = {
+        //     name1: null
+        // }
+        // try {
+        //     // obj.name1.a = 123
+        //     setTimeout(()=>{
+        //         obj.name1.a = 123
+        //     })
+        // } catch(error) {
+        //     // 发送到你的服务端，使用的用户多了，就会发很多错误信息
+        //     console.log(error);
+        // }
+        // // 有错的代码已经捕获了，所以后面的还是能执行的
+        // console.log(123);
+
+        // 2.意料以外的错，全局捕获(兜底，任何方式都捕获不到，这个就是最终的监听)
+        // 能拿到具体到行列，以及错误的类型error，出错原因
+        // 把捕获到的对象给后面的回调函数err
+        // window.addEventListener这个监听事件有第三个参数，可以指明为false来让这个事件绑定是在冒泡阶段还是目标阶段
+        // error这个事件也会冒泡到window（最顶端）
+        // window.addEventListener('error', function(err){
+        //     console.log(err); //拿到出错的对象
+        //     // 怎么让出错信息不出现在控制台上？
+        //     // return false; ？？？
+
+        //     // 因为错误事件他也是一个事件（event),事件都有一个特点的-》冒泡和捕获
+        //     // 检测到错误了，然后也要整理一下发给后端
+        // },false)
+        // // 第三个参数 是在目标阶段还是
+        // // 我们平常用的是target阶段
+
+        //3. Promise 他有三个状态panding resolve reject
+        let obj = {
+            name1: null
+        }
+        new Promise((resolve, reject) => {
+            reject('error'); //Uncaught (in promise) error
+        })
+        try{
+            setTimeout(()=>{
+                obj.name1.a = 123;
+            })
+        } catch(error) {
+            console.log(error);
+        }
+        console.log('123');
+        // reject也会有一个叫uncatch的错，未捕获的
+        window.addEventListener('error',function(err){
+            console.log(err);
+        })
+        // 我们明明在window上绑定了监听错误的为什么是未捕获？
+        // 因为Promise使用另一个来捕获的：
+        window.addEventListener('unhandledrejection',function(err){
+            console.log(err); //PromiseRejectionEvent {}这个就是Promise的错误
+        })
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!-- 监听api请求有没有出错 -->
+<!-- 如果用axios请求，会监听到结果； -->
+<!-- axios.get('/')
+.then(res=>{
+    如果监听到状态码不是200,那可能就出错了
+    if(res.code !==200){ -->
+        <!-- 出错了就要把请求上报给后端，都要判断状态码，能不能同一处理？ -->
+    <!-- } -->
+    <!-- 但这种会有一个错误，我们认为这种错误上报的代码是有侵入的 -->
+<!-- }) -->
+<!-- 统一处理 -->
+<!-- 要对axios有一定认是，它是基于我们的原生js XMLHttprequest这个方法封装出来的一个库 -->
+<!-- 统一处理的策略：把 XMLHttprequest监听请求完成的这个方法给他改掉 之前监听过数组的push用的是面向切片的AOP-->
+<!-- 这里是监听事件请求有没有出错，只要把XMLHttprequest -->
+<!-- api请求 要对所有的请求进行处理-->
+<!-- 只要是用XMLHttprequest相关的库封装出来的东西，他的所有的请求的落脚点一定是XMLHttprequest,能不能对他做适当的修改？ -->
+
+
+<!-- 开始改写 -->
+<!-- 先把原来的保留 -->
+<!-- 拦截Ajax请求 -->
+<!-- 如果页面上有一个按钮 -->
+<button id="btn">按钮</button>
+<script>
+    // document.getElementById('btn').onclick = 不同的对象绑定了addEventListener事件，但不会被互相影响
+    const _XMLHttprequest = XMLHttpRequest;
+    // 然后把window上的改成我们的
+    // 他是一个可以用来new的类，也就是一个方法
+    window.XMLHttpRequest = function() {
+        // 原来本身是要返回一个xhr对象 是由我们XMLHttpRequest生成的
+        const xhr = new _XMLHttprequest();
+        // 改完后要保证还是能生成xhr的
+        // 监听error事件
+        // 原来使用xhr.onerror = function(){},这里我们用addEventListener
+        // 
+        // 还有一种错，服务端是能返回的，但是参数传错了，服务端会返回code为400认证不成功
+        // 这种就是客户端和服务端都没错，只是传参错误，这种就是要监听状态码，这个不好监听，
+        // 状态码这个是服务端已经返回了，监听onload 或者readyStateChange都可以
+        xhr.addEventListener('error', ()=>{
+            console.log('xhr出错了');
+            // 更严谨的来说本来是要上报到服务器的
+            // error错误是整个服务器宕机
+        })
+        xhr.addEventListener('timeout',()=>{
+            console.log('xhr超时了');
+        })
+        xhr.addEventListener('readystatechange',()=>{
+            // 4是说服务端返回的资源已经下载完毕
+            // 受到相应内容，获得处理权
+            // readyState是xhr的状态
+            if(xhr.readyState === 4) {
+                if(xhr.status !==200) {
+                    console.log('出错了', xhr.status); //拦截到了
+                }
+                // console.log(xhr.status);
+            }
+        })
+        // 保证原来的使用没出错
+        return xhr;
+        //之后想自定义监听什么由自己决定
+    }
+</script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<!-- 验证一下把一个axios的库下来 -->
+<script>
+    // 放一个错误的
+    axios.get('http://neteasecloudmusicapi.zhaoboy.com/sea')
+    .then(res => {
+        console.log(res);//因为axios，我们已经把XMLHttpRequest修改掉了然后才把ajax加载进来的，看一下会不会报error错
+    })
+</script>

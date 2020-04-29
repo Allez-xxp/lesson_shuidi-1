@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 写一个错误的地址，资源加载出错 -->
+    <img src="https://user-gold-cdn.xitu.io/2020/4/29/1" alt="">
+    <script>
+        // 资源加载的出错，他不会冒泡，只能在捕获阶段监听到他，因为他这是一个html节点，整个html节点都在document上面，
+        // 文档出错我们一般都是在document上面绑定事件
+        // 我们认为js它的整个父级是在window上，然后资源的出错是在document上面（资源的整个父级在document上面）
+        document.addEventListener('unhandledrejection',function(err){
+            // 默认第三个参数为false(冒泡阶段) 我们要指明是在捕获阶段监听错误
+            console.log(err);
+            //但是资源是有很多很多的，所以一般不对静态资源监控，
+        },true)
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css4 variable</title>
+    <style>
+        :root{ /*定义变量的地方 css in js 比styls好 bg_color = #123123*/
+            /* 根部，这里是声明变量的地方 */
+            --bgcolor: blue;
+            --color: red;
+        }
+        p {
+            color: var(--color) /*var使用变量，将他变成可复用的*/
+        }
+        div{
+            background-color:var(--bgcolor);
+            color: var(--color);
+        }
+    </style>
+</head>
+<body>
+    <!-- 也叫css next -->
+    <!-- css变量 -->
+    <p>怎么成功？越努力越幸运</p>
+    <div>临安的学习之路</div>
+</body>
+</html>

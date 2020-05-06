@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BFC</title>
+    <link rel="stylesheet" href="./button.css">
+    <style>
+
+    </style>
+</head>
+<body>
+    <!-- 块级格式化上下文BFC-->
+    <button class="button">按钮</button>
+    <script>
+        // 如何实现：用纯css做抛物线 月影 按钮内部视觉动态效果随着鼠标有光晕
+        // 细化css知识点：css variable css于js交互的效果 color-mod()
+        document
+            .querySelector('.button')
+            .onmousemove = (e) => {
+                const x = e.pageX - e.target.offsetLeft;
+                const y = e.pagey - e.target.offsetTop; //得到偏移量
+                // js设置css变量的代码 为button
+                e.target.style.setProperty('--x', `${x}px`)
+                e.target.style.setProperty('--y', `${y}px`)
+            }
+    </script>
+</body>
+</html>

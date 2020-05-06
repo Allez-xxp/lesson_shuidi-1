@@ -1,0 +1,25 @@
+.button
+    position relative
+    -webkit-appearance: none
+    // appearance none //默认样式去掉
+    background-color #f72359
+    padding 1em 2em //相对于html的font-size 没设置默认为16px
+    border none 
+    font-size 1.2em
+    cursor pointer //手形
+    outline none  //里面不会超过父元素，不会吧父元素撑大 //outline （轮廓）是绘制于元素周围的一条线，位于边框边缘的外围，可起到突出元素的作用。
+    overflow hidden
+    border-radius 100px
+    &::before //伪元素//加内容，但不会加标签
+        --size 0 //默认大小为0，不出现，鼠标移上去的时候再变大 //定义一个变量
+        content '' //必须指定的，用来定义插入的内容
+        position absolute
+        // 中央点在哪里（x,y是鼠标在屏幕中的，到时候会用js定义
+        left var(--x) //--x表示一个变量
+        top var(--y) //定位 鼠标跟随效果
+        width var(--size)
+        height var(--size) //使用var引用变量
+        background radial-gradient(circle closest-side, #4405f7, transparent) //环形渐变 closest-side环形渐变的一种风格，抽特使的效果，transparent透明
+        transform translate(-50%, -50%) //旋转，移动  进行一定的偏移一下让我们鼠标位于这里绘制的中心
+    &:hover:before
+        --size 400px

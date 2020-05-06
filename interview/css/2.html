@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* css4有什么stylus不能做的呢？ */
+        .box{
+            --base-size: 10; /*变量*/
+            width: calc(var(--base-size)*10px); /*想把90%的宽度给这个盒子，怎么做？ 1.90vw 2.90% 3.rem(这个要结合html的font-size,这个根html的宽) */
+            /* 编程式的计算，精细 cal */
+            height: calc(var(--base-size)*5px);
+            padding: calc(var(--base-size)*1px);
+            background-color: red;
+        }
+        /* pc端现在是100px */
+        /* 移动端时将盒子变小为原来的0.8倍 */
+        /* @media 媒体查询 */
+        @media screen and (max-width: 800px) {
+            /* 怎么把宽度设为80px? 0.8倍 */
+            .box {
+                --base-size: 8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <script>
+        // 360风格，比较底层，偏的css 新旧技能喜欢考
+        // style中css编译还是一个封闭系统
+        // 优势：js还可以操作变量
+        // 用一个命名空间设置一个联动性
+        setTimeout(()=>{
+            document
+                .querySelector('.box')
+                .style
+                .setProperty('--base-size',20) //设置变量
+                // setProperty() 方法用于设置一个新的 CSS 属性，同时也可以修改 CSS 声明块中已存在的属性。
+        },1000)
+    </script>
+</body>
+</html>

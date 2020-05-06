@@ -1,0 +1,63 @@
+<!-- 是个类，接受一个回调方法 -->
+<!-- 不可逆的，有三个状态 -->
+<script>
+    // 当调用（发生）resolve的时候，pending状态变成fulfilled
+    // 当调用reject的时候，pending-》reject
+    // 在CutePromise内部，怎么知道resolve / reject被调用了？
+    // 别人调用的时候，是调用了里面的回调函数，然后里面会传两个形参(是函数）) ，就是他们
+    function CutePromise(executor) {
+        this.status = 'pending'
+        let self = this;
+        // 存一下，村这个value属性
+        this.value = null; //保存成功的结果
+        this.reason = null; //失败的原因
+        // 关键点1 里面是两个函数（resolve,reject)，作为参数传进去,并且回调时候把他们传过去，可以通过原来的Promise测试一下resolve和reject
+        function resolve(value) {
+            // 通过resolve，把成功时候的值，通过这个resolve，也就是promise的使用者在使用resolve的时候会回调resolve,由此能拿到resolve里面传的值
+            self.status = 'fulfilled';
+            console.log('val', value);
+            self.value = value //打通then中获取的值，通过value属性，挂载this上了，然后then里面就能拿到了
+        }
+        function reject(reason) {
+            self.status = 'rejected';
+            // console.log('val', value);
+            self.reason = reason;
+        }
+        executor(resolve, reject);
+        //关键点2，与then关联起来，then也是一个回调，要跟resolve后的值关联起来resolve(123) then中的回调的参数就是123
+
+    }
+    // 2
+    // 原型对象的方法怎么拿到构造函数中的value?
+    // then里面是接受两个参数的，一个是成功的时候拿到的回调，一个是失败的时候拿到的值
+    // 也就是then这里是会接收两个回调的
+    CutePromise.prototype.then = function(onFulfilled, onRejected) { //还有个then方法
+        // 把value取下来
+        let self = this;
+        // onFulfilled(self.value); //不够
+        // 调用别人的时候，要把值给别人
+        //3. 一定是要状态发生变化了then里面才有值
+        if(self.status === 'fulfilled') {
+            onFulfilled(self.value); //4. 然后需要成功的值
+        } else if(self.status === 'rejected') {
+            onRejected(self.reason); //4. 然后需要失败的原因
+        }
+    }
+    // 存一下value
+    new CutePromise((resolve, reject)=>{
+        
+        // console.log(resolve,reject);
+        // resolve(1);
+
+        // 加个异步,等两秒才resolve
+        setTimeout(()=>{
+            resolve(1);//发现没有东西出来
+        },2000)
+    })
+    .then((val)=>{
+        console.log('then',val);
+    })
+    // 关键点3，一定是要状态发生变化了then里面才有值
+
+    // 补充Promise是有异步处理的过程的，上面还没有异步 加一个setTimeout
+</script>

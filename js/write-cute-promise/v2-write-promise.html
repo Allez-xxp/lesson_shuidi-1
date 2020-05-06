@@ -1,0 +1,66 @@
+<!-- 异步，then一定要等着resolve执行了才执行 -->
+<script>
+    function CutePromise(executor) {
+        this.status = 'pending'
+        let self = this;
+        this.value = null; 
+        this.reason = null; 
+        // 处理异步，也是绑定到this上
+        // then是可以链式调用的所以以数组形式保存
+        this.onFulfilled = [];
+        this.onRejected = [];
+        function resolve(value) {
+            console.log('resolve发生调用了')
+            self.status = 'fulfilled';
+            self.value = value //打通then中获取的值，通过value属性，挂载this上了，然后then里面就能拿到了
+            // 这里要处理一下，让then的回调发生，也就是让then的resolve回调发生调用
+            // 然后可以放心的调用了
+            for(let fn of self.onFulfilled) {
+                fn(value);
+            }
+        }
+        function reject(reason) {
+            self.status = 'rejected';
+
+            // console.log('val', value);
+            self.reason = reason;
+            // 这里要处理一下，让then的回调发生，也就是让then的reject回调发生调用
+            for(let fn of self.onRejected) {
+                fn(reason);
+            }
+        }
+        executor(resolve, reject);
+
+    }
+    // 之前是不知道怎么拿到构造函数中的值，现在是构造函数里面需要知道then
+    CutePromise.prototype.then = function(onFulfilled, onRejected) { //还有个then方法
+        // 把value取下来
+        let self = this;
+        // 因为这里的限制，所以在发生异步的时候，也要加一个
+        if(self.status === 'fulfilled') {
+            onFulfilled(self.value); 
+        } else if(self.status === 'rejected') {
+            onRejected(self.reason); 
+        } else if (self.status === 'pending') {
+            // 先等着，等resolve或者reject发生调用才执行then
+            self.onFulfilled.push(onFulfilled); //先把这些函数存起来，等着resolve执行了在执行
+            self.onFulfilled.push(onRejected);
+        }
+    }
+    // 存一下value
+    new CutePromise((resolve, reject)=>{
+        
+        // console.log(resolve,reject);
+        // resolve(1);
+
+        // 加个异步,等两秒才resolve
+        setTimeout(()=>{
+            resolve(1);
+        },2000)
+    })
+    .then((val)=>{
+        console.log('then发生调用了')
+        console.log('then',val);
+    })
+    //异步，then一定要等着resolve执行了才执行
+</script>

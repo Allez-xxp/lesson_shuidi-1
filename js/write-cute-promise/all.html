@@ -1,0 +1,49 @@
+<script>
+    // Promise.all
+    // 所有的promise都resolve了，返回的promise才resolve
+    // 因为返回的时间不一定按顺序来，执行的时间不一定，所以要用for i循环，不能用for-of
+    // 是一个静态方法，所以不是定义在圆形链上
+    // 三个promise的resolve要按顺序放进结果，要对齐放进去
+    // 有因为时间长短的问题，可能前面还没执行完，但是length的长度符合了，所以通过判断一个count，有几个promise的resolve了，就有几个count
+    // 然后把原来的判断数组长度，变成判断count与Promise的个数是否相等可以实现
+    let p1 = new Promise((resolve)=>{
+        setTimeout(()=>{
+            resolve(1);
+        }, 1000)
+    })
+    let p2 = new Promise((resolve)=>{
+        setTimeout(()=>{
+            resolve(2);
+        }, 2000)
+    })
+    let p3 = new Promise((resolve)=>{
+        setTimeout(()=>{
+            resolve(3);
+        }, 3000)
+    })
+    // let p = Promise.all([p1, p2, p3])
+    // p.then(x => {
+    //     console.log(x)
+    // })
+    // 手写一个
+    Promise.myall = function(promise) {
+        let res = [];
+        let count = 0;
+        for(let i = 0; i < promise.length; i++) {
+            promise[i].then(x=>{
+                res[i] = x; //每个promise .then后返回的值
+                count++;
+                if(count === promise.length) {
+                    resolve(res);
+                }
+            })
+            .catch(err => {
+                reject(err); //只要有一个没成功，就是reject
+            })
+        }
+    }
+    let p = Promise.all([p1, p2, p3])
+    p.then(x => {
+        console.log(x)
+    })
+</script>

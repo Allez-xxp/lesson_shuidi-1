@@ -1,0 +1,26 @@
+<script>
+    // 回调 函数式编程
+    function test(fn) {
+        // 要求实现test
+        // 实参传进去
+        setTimeout(()=>{
+            fn('hello world') //回调给别人的时候，把这个传过去了
+        },3000)
+    }
+    // 这里不能动
+    test(function(val){ //这要是一个回调函数
+        console.log(val)
+    })
+    // 要求三秒之后输出hello world 
+    // 也就是val要等于hello world
+
+    //原来的promise:
+    // promise 有三个状态pending->fulfilled(resolve) / pending->reject 是不可逆的
+    new Promise((resolve,reject) => {
+        resolve(1); //会接受一个值，传给then
+    })
+    .then((val)=>{ //接受到传来的结果
+        console.log(val); 
+    })
+    //怎么实现
+</script>

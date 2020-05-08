@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        .content{
+            /* overflow: hidden; */
+            padding: 0 40px 0 50px;
+            height: 100px;
+            
+        }
+        .cal{
+            float: left;
+        }
+        .main{
+            width: 100%;
+            height: 500px;
+            background-color: #f64444;
+        }
+        .left{
+            width: 40px;
+            height: 500px;
+            background-color: #343434;
+            margin-left: -100%;
+            position: relative;
+            left: -40px;
+        }
+        .right{
+            width: 50px;
+            height: 500px;
+            background-color: #2727;
+            /* 都可以 把left 和 right移到左右两边，但此时会覆盖到main的内容， */
+            /* 圣杯布局的思想就是给包裹着三个元素的 content 加一个 padding, 让 padding-left 和 padding-right 的数值是 left 和 right 的宽度，然后利用相对定位把他们再移动在两旁。 */
+            /* margin-right: -100%; */
+            margin-left: -50px;
+            position: relative;
+            /* 然后利用相对定位移动 left 和 right */
+            right: -50px;
+        }
+    </style>
+</head>
+<body>
+    <section class="content">
+        <section class="cal main">main</section>
+        <section class="cal left">left</section>
+        <section class="cal right">right</section>
+    </section>
+</body>
+</html>

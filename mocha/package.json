@@ -1,0 +1,16 @@
+{
+  "name": "mocha",
+  "version": "1.0.0",
+  "description": "mocha 让我们写出来更好的代码\r 是一个让我们把代码写的正确的东西\r 是一个TDD开发工具-》测试驱动开发",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/mocha/data.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mocha": "^7.1.2",
+    "should": "^13.2.3"
+  }
+}

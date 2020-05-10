@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            /* flex可以让div到一行上去 */
+            display: flex;
+            min-height: 130px;
+        }
+        .left{
+            /* order是越小越小越靠前，0是默认值 */
+            order: -1; 
+            background-color: lightblue;
+            width: 60px;
+            height: 300px;
+            flex-basis: 100px;
+
+        }
+        .main{
+            /* 通过项目属性flex-grow设置main的放大比例，将空余的空间用main来填充，使三个项目不满一整行；默认为0，也就是对剩余空间不做处理。 */
+            background-color: #db2812;
+            /* width: 100%; */
+            /* height: 300px; */
+            flex-grow: 1;
+        }
+        .right{
+            /* 通过项目属性flex-basis 设置left和right的固定宽度 */
+            background-color: lightseagreen;
+            width: 60px;
+            height: 300px;
+            flex-basis: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main">
+            main
+        </div>
+        <div class="left">
+            left
+        </div>
+        
+        <div class="right">
+            right
+        </div>
+    </div>
+</body>
+</html>

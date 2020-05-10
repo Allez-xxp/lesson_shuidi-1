@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .hr {
+            width: 300px;
+            background-color: #000;
+        }
+
+        .hr.half-px {
+            height: 1px;
+            transform: scaleY(0.5);
+        }
+
+        .hr.one-px {
+            height: 1px;
+        }
+        /* chrome在这中下会好点 */
+        .hr.boxshadow {
+            height: 1px;
+            background: none;
+            box-shadow: 0 0.5px 0 #000;
+        }
+    </style>
+</head>
+
+<body>
+    <p>0.5px</p>
+    <div class="hr half-px"></div>
+    <p>1px</p>
+    <div class="hr one-px"></div>
+    <p>shadow</p>
+    <div class="hr boxshadow"></div>
+</body>
+
+</html>

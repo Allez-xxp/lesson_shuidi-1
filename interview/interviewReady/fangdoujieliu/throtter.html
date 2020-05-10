@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节流</title>
+</head>
+<body>
+    <button id="btn">按钮</button>
+    <script>
+        function success(e) {
+            console.log('点我干嘛');
+        }
+        // 节流是每隔delay秒都会执行一次
+        const throtter = (fn,delay) => {
+            // 需要借助一个开关变量
+            let flag = true; //执行点击事件的时候，让开关变为true,第二次点击的时候把开关变量变成false
+            return ()=>{
+                if(!flag) return
+                flag = false;
+                setTimeout(()=> {
+                    fn()
+                    // 点击事件执行完后，才打开
+                    flag = true;
+                }, 2000)
+            }          
+            
+        }
+        const othrotter = throtter(success, 2000);
+
+        let btn = document.getElementById('btn');
+        btn.addEventListener('click', othrotter);
+    </script>
+</body>
+</html>

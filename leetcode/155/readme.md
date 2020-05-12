@@ -33,3 +33,4 @@ minStack.getMin();   --> 返回 -2.
 pop、top 和 getMin 操作总是在 非空栈 上调用。
 要求在常数时间内检索到最小栈，但是找最小值需要从栈顶到栈底线性扫描一边才能得到栈中的最小元素
 加一个辅助栈，保存栈中最小元素
+链接：https://leetcode-cn.com/problems/min-stack/solution/zui-xiao-zhan-by-leetcode-solution/

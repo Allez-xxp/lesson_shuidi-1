@@ -1,0 +1,35 @@
+{{define "index.html"}} 
+<!-- 模板语法 定义这个模板名字叫index.html 将来这个模板可以打包输出 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品列表</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>商品名称</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 这是js运行区域 -->
+            <!-- 这里要做一个循环 -->
+            <!-- go的循环模板 -->
+            <!-- 这是GO的模板语法  range会自动循环，GO中的语法-->
+            {{ range .allproduct }}
+            <!-- 这里是循环的范围，一开一结束 -->
+            <tr>
+                <td>{{.Id}}</td>
+                <td>{{.Name}}</td>
+            </tr>
+            {{ end }}
+        </tbody>
+    </table>
+</body>
+</html>
+{{ end }}
+<!-- 完成对模板的编译 -->

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eval</title>
+</head>
+<body>
+    <script>
+        // 还跟安全有关
+        // eval不该用 
+        // 负责js主动拉取数据 
+        //拿到数据，以前是fetch+地址+json
+        //现在要自己手动去拿
+        const xmlhttp = new XMLHttpRequest(); //一个请求 //这个是ie 6.0发明的，此时还没有json,所以返回的数据没有json
+        // 
+        xmlhttp.onreadystatechange = function(event) {
+            // console.log(event); //所以这个返回是没有json的，是以字节流，以文本的方式返回
+            if(xmlhttp.readyState == 4 && xmlhttp.status == 200) { //4就是完全完成了
+                // 是以文本的方式返回的
+                // console.log(event.target.responseText);
+                // 怎么把ajax 得到的text => 变成json数组 让它来到程序里 红宝书
+                // const data = JSON.parse(event.target.responseText); //就是用于这个场景，es5有的，但不是js语言自带的，json都不是
+                const data = eval(event.target.responseText); //用eval,
+                // eval是js原生的，一出生就有，可以帮我们把字符串执行成我们的js,把请求来的数据立马执行
+                console.log(data);
+            }
+        }
+        // 想获取一个get请求，获取./post.json中的内容
+        xmlhttp.open("GET", "./post.json", true);  //post.json就代表着服务器把数据输出
+        xmlhttp.send(null); //get请求不需要发数据
+    </script>
+</body>
+</html>

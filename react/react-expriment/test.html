@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">btn</button>
+    <script>
+        const btn = document.getElementById('btn');
+        btn.addEventListener('click', () => {
+            console.log(123);
+        })
+        while(true) {
+
+        }
+        // 点击按钮的时候会输出什么？
+        // while true死循环了，连按钮都没出来，页面什么都没有，响应不了事件，这就是js跟ui渲染是互斥的的表现，
+        // 其他用户的事件，交互，他都响应不了
+    </script>
+</body>
+</html>

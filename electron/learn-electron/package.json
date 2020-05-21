@@ -1,0 +1,12 @@
+{
+  "name": "learn-electron",
+  "version": "1.0.0",
+  "description": "electron 是js在exe的应用，学他对就业 TOP100公司。前端效率，开发工具非常有帮助",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

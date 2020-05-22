@@ -19,3 +19,45 @@ html还行，有配对的东西，但是js 编程语言 这个没什么明显的
 匹配到最后，没有匹配上说明是有问题的，
 ## 语法分析，
 
+
+# 继续 浏览器渲染解析
+上次已经生成了一个DOM树，现在还要把css解析出来，把css追加到DOM树上，layout树
+复习一下上次的树，2.js
+新建css-computer.js
+要在header中写css
+
+// 还需要一个状态，img这种 自闭合的
+// 选择器 浏览器解析选择器，我们这里只写标签，类，属性选择器
+// 要让myid这个元素，这个节点上该有的css附加到DOM中去
+// 要拿到css内容 分析选择器 与id对应起来
+// 要先拿到里面的内容
+```js
+let htmlStr = `<html>
+<head>
+    <style>
+    body div myid {
+        width: 100px;
+        backage-color: #fff;
+    }
+    </style>
+</head>
+<body>
+    <div>
+        <div id="myid">
+            <span></span>
+            <img />            
+        </div>
+    </div>
+</body>
+</html>
+`;
+```
+单纯文本也是节点，是一个文本节点
+
+
+start状态继续修改
+
+1. 属性的解析
+attribute
+
+解析标签名的时候中间加了一个空格

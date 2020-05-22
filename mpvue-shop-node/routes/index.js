@@ -45,15 +45,16 @@ router.get('/search/indexaction',controllers.search.index.indexAction)
 router.post('/search/addhistoryaction',controllers.search.index.addHistoryAction) 
 //addhistoryaction得去定义它，来到search/index
 //当用户请求当前这个接口的时候就意味着用户输入的内容（search/index里面的openId,keyword)会被插入到后端数据库中去
-
 //清除历史纪录的接口
 router.post('/search/clearhistoryAction',controllers.search.index.clearHistoryAction)
-
 // 搜索提示接口
 router.get('/search/helperaction',controllers.search.index.helperAction)
-
 //商品详情页
 router.get('/goods/detailaction',controllers.goods.index.detailAction) //然后后面是回调函数，我们直接放controllers
+
+
+//收藏相关的接口
+router.post('/collect/addcollect', controllers.collect.index.addCollect)
 
 //把router导入出去,app.js的router的引入才有用 看一眼代码有没有问题node app.js
 module.exports = router

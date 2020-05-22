@@ -1,0 +1,377 @@
+.goods{
+    overflow: hidden; //超出则隐藏，调整整个goods的div
+    .swiper{ //banner图
+        width: 750rpx;
+        height: 750rpx;
+        position: relative; //相对定位 //会以他为父
+        &-container{
+            width: 100%;
+            height: 100%;//继承父容器的宽高（swiper的)
+            // 没给swiper-item这个容器放样式，因为这个容器会被编译，他是一个块级容器，相当于默认也有一个继承，宽高是继承父容器的
+            img{
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .share{
+            position: absolute;//绝对定位
+            border-radius: 40rpx 0 0 40rpx;//圆角,一般我们只写一个值，当写四个值说明左上角，右上角，右下角，左下角
+            width: 150rpx;
+            height: 65rpx;
+            line-height: 65rpx;
+            text-align: center;//文字居中
+            right: 0;
+            top: 50rpx;
+            background-color: #e0a354;
+            color: #fff;
+            font-size: 24rpx;
+        }        
+    }
+    .swiper-b{
+        width: 710rpx;
+        height: 73rpx;
+        margin: 0 auto;
+        background: #f4f4f4;
+        //去同一行
+        display: flex;
+        align-items: center;//居中对齐
+        justify-content: space-between;//x轴用空白撑开
+        div{
+            // 小圆圈的背景图片，y轴居中，不平铺
+            background: url('http://nos.netease.com/mailpub/hxm/yanxuan-wap/p/20150730/style/img/icon-normal/servicePolicyRed-518d32d74b.png') 0 center no-repeat;
+            background-size: 10rpx;
+            padding-left: 15rpx;
+            display: flex;
+            align-items: center; //align-items 属性定义flex子项在flex容器的当前行的侧轴（纵轴）方向上的对齐方式
+            font-size: 25rpx;
+            color: #666;
+        }
+    }
+    .goods-info{
+        width: 750rpx;//rpx会根据手机的宽度自适应
+        height: 306rpx;
+        background: #fff;
+        margin: 0 auto;
+        border-bottom: 1px solid #f4f4f4;
+        .c{
+            height: 100%;
+            p{
+                display: block;
+                text-align: center;
+            }
+            p:nth-child(1){ //第一个p标签
+                font-size: 41rpx;
+                padding: 20rpx;
+            }
+            p:nth-child(2){ //第2个p标签
+                font-size: 24rpx;
+                margin-bottom: 25rpx;
+                color: #999;
+            }
+            p:nth-child(3){ //第3个p标签
+                font-size: 35rpx;
+                margin-top: 10rpx;
+                color: #b4282d;
+            }
+            .brand{
+                margin-top: 25rpx;
+                text-align: center;
+                p{
+                    display: inline-block;
+                    color: #b1a279;
+                    font-size: 20rpx;
+                    padding: 5rpx 30rpx;
+                    border: 1rpx solid #b1a279;
+                }
+            }
+        }
+    }
+    .section-nav{
+        height: 108rpx;
+        background: #fff;
+        margin-bottom: 20rpx;
+        padding: 0 20rpx;
+        display: flex;
+        justify-content: space-between; //x轴 空格隔开
+        align-items: center;//y轴居中对齐
+        div:nth-child(2){
+            width: 52rpx;
+            height: 52rpx;
+            background:url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587487726509&di=41c3eb6cda7773252a0bde7a3347cd45&imgtype=0&src=http%3A%2F%2Fpic.51yuansu.com%2Fpic2%2Fcover%2F00%2F33%2F44%2F581122b5d2b9d_610.jpg') no-repeat;
+            background-size: 100% 100%;
+        }
+    }
+    .pop{ //要做成一个遮罩层，一般要做成相对于浏览器定位
+        position: fixed;
+        top: 0;
+        left: 0;//或者写right0,buttom0强行变成跟手机屏幕一样大
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5); //给0.5的透明度
+    }
+    .attr-pop{
+        position: fixed;
+        width: 100%;
+        height: 500rpx;
+        bottom: -500rpx; //因为高度是500然后初始位置为-500的时候就是在整个手机屏幕最下面，看不到，点击的时候才出来（修改的就是这里）
+        transition: all 400ms ease; //控制所有的动画，属性变化//ease线性变化 缓慢的 400毫秒之间去执行
+        // (过渡属性）则默认为all，表示所有可过渡属性。
+        box-sizing: border-box;
+        padding: 30rpx;
+        background: #fff;
+        .top{
+            display: flex;
+            margin-bottom: 35rpx;
+            position: relative;
+            .close{
+                position: absolute;//让它定位到最右边
+                right: 0;
+                top: 0;
+                font-size: 30rpx;
+                color: #999;                
+            }
+            .left{
+                float: left;
+                height: 177rpx;
+                width: 177rpx;
+                margin-right: 30rpx;
+                img{
+                    float: left; //左浮动 或脱离文档流
+                    height: 177rpx;
+                    width: 177rpx;
+                }
+            }
+            .right{ //???
+                flex: 1; //继承父容器宽高，
+                display: flex;
+                align-items: flex-end; //y轴方向
+                p{
+                    width: 100%;
+                    line-height: 45rpx;
+                }
+                p:nth-child(1){
+                    color: #b4282d;
+                }
+            }
+        }
+        .b{
+            .count{
+                width: 322rpx;
+                height: 71rpx;
+                line-height: 71rpx;
+                display: flex;
+                border: 1rpx solid #ccc;
+                margin-top: 20rpx;
+                div{
+                    width: 90rpx;
+                    text-align: center;
+                }
+                input{
+                    flex: 1;
+                    height: 100%;//高度继承父的高度
+                    text-align: center;//文字居中
+                    border-left: 1rpx solid #ccc;
+                    border-right: 1rpx solid #ccc;
+                }
+            }
+        }
+    }
+    .fadeup{
+        transform: translateY(-500rpx); //动画,在y轴上移动-500rpx,也就是当被加上这个类名的时候，就会在y轴也就是往上移动500rpx的距离（button就会从-500->0,就能出现了）
+        // 而且transform归transition管，我们设置了all,表示transition只要有属性发生变化，都会执行400ms的延迟
+    }
+    .attribute{
+        padding: 20rpx 30rpx;
+        background-color: #fff;
+        margin-bottom: 20rpx;
+        .head{
+            font-size: 30rpx;
+        }
+        .item{
+            display: flex;//然后两个div就回去同一行
+            background-color: #f7f7f7;
+            padding: 20rpx 0;
+            margin: 20rpx;
+            div:nth-child(1){ //父的第一个div
+                width: 134rpx;
+                font-size: 25rpx;
+                color: #999;
+            }
+            div:nth-child(2){ //因为父容器是弹性盒子，第一个子容器直接设了宽度，这个就直接继承剩余的
+                flex: 1;//继承剩余的宽高
+                //加上一个超出则打点
+                overflow: hidden; //超出隐藏
+                text-overflow: ellipsis;//打点
+                white-space: nowrap; //规定段落中的文本不进行换行：
+            }
+        }
+    }
+    .commom-problem{
+        margin-bottom: 110rpx;
+        .h{
+            padding: 35px 0;
+            background: #fff;
+            text-align: center;
+            display: flex;
+            align-items: center;//y轴居中
+            justify-content: center;//x轴居中
+            .title{
+                padding: 0 25rpx;
+                background: #fff;
+            }
+        }
+        .b{
+            padding: 0 30rpx;
+            background: #fff;
+            .item{
+                padding-bottom: 25rpx;
+                .question-box{
+                    display: flex;//弹性布局
+                    .spot{
+                        width: 8rpx;
+                        height: 8rpx;
+                        background: #b4282d;
+                        border-radius: 50%; //圆角给50%，就能变成一个圆形了
+                        margin-top: 11rpx;
+                    }
+                    .question{
+                        line-height: 30rpx;//行高
+                        padding-left: 8rpx;//离点有隔开一点距离
+                        display: block; //因为在最外层给了弹性布局，所以不怕不会和圆点在一行
+                        font-size: 26rpx;
+                        padding-bottom: 15rpx;
+                        color: #303030;
+                    }
+                }
+                .answer{
+                    line-height: 40rpx;
+                    padding-left: 16rpx;
+                    font-size: 26rpx;
+                    color: #787878;
+                }
+            }
+        }
+        // 大家都在看的样式
+        .submit{
+            display: flex;
+            justify-content: space-between;//留间隔
+            flex-wrap: wrap; //必要时换行
+            width: 0 auto;
+            margin: 0 auto;
+            div{
+                width: 360rpx; //360+360=720 还剩10rpx就是我们间隔
+                background: #fff;
+                margin-bottom: 10rpx;
+                padding-bottom: 10rpx;
+                img{
+                    display: block;
+                    width: 302rpx;
+                    height: 302rpx;
+                    margin: 0 auto;//左右居中
+                }
+                p{
+                    margin-bottom: 5rpx;
+                    text-indent: 1em;//首行缩进
+                }
+                p:nth-child(2){
+                    // 超出打点
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    width: 98%;
+                }
+                p:nth-child(3){ //第三个p标签，是我们的价格//规定属于其父元素的第3个子元素的每个 p 的背景色：
+                    color: #9c3232;
+                }
+            }
+        }
+    }
+    .buttom-fixed{
+        position: fixed;//要定位到屏幕的底部//相对于整个视图定位
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 750rpx;//其实就是手机屏幕的宽度
+        display: flex;//弹性布局 因为要让里面的元素他们在同一行
+        background: #fff;
+        z-index: 10;
+        .collect-box{
+            height: 100rpx;//也就是高度100%
+            width: 162rpx;
+            border: 1rpx solid #f4f4f4;
+            display: flex;//弹性布局
+            align-items: center;//垂直居中//居中对齐弹性盒的各项 <div> 元素：
+            justify-content: center;
+            .collect{
+                display: block;//定义为块级元素好设宽高
+                height: 44rpx;
+                width: 44rpx;
+                background: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1588137057894&di=5de23e4c6f6cc77a9fae2a984517b78c&imgtype=0&src=http%3A%2F%2Fbpic.588ku.com%2Felement_origin_min_pic%2F01%2F35%2F52%2F65573be8b208922.jpg') no-repeat;
+                background-size: 100%;
+                // 然后点击的时候会标红怎么做？就是替换了图片
+            }
+            .collect.active{ //如果既有collect 又有active类名
+                display: block;//定义为块级元素好设宽高
+                height: 44rpx;
+                width: 44rpx;
+                background: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1590124443971&di=0ba5fd99a1535c7ef649d7ab0cd90d0e&imgtype=0&src=http%3A%2F%2Fbpic.588ku.com%2Felement_origin_min_pic%2F01%2F01%2F23%2F4456f3e79e79486.jpg') no-repeat;
+                background-size: 100%;
+                // 然后点击的时候会标红怎么做？就是替换了图片
+            }
+        }
+        .car-box{ //样式其实基本一致 复制一下
+            height: 100rpx;//也就是高度100%
+            width: 162rpx;
+            border: 1rpx solid #f4f4f4;
+            display: flex;//弹性布局
+            align-items: center;//垂直居中//居中对齐弹性盒的各项 <div> 元素：
+            justify-content: center;
+            .car{
+                position: relative;//相对定位//因为有一个角标需要根据这个定位
+                width: 60rpx;
+                height: 60rpx;
+                span{ //角标
+                    position: absolute;//绝对定位，
+                    top: 0;
+                    right: 0;//右上角
+                    width: 28rpx;
+                    height: 28rpx;
+                    z-index: 10;
+                    background: #b4282d;
+                    text-align: center;//文字居中
+                    font-size: 18rpx;
+                    color: #fff;
+                    line-height: 28rpx;//行高跟高度一样//line-height = 上间距+文字高+下间距
+                    border-radius: 50%;
+                }
+                img{
+                    display: block;
+                    height: 44rpx;
+                    width: 44rpx;
+                    position: absolute;
+                    top: 10rpx;
+                    left: 0;
+                }
+            }
+        }
+        div:nth-child(3){ //立即购买
+            height: 100rpx;
+            line-height: 96rpx; //上间距+文字高+下间距
+            text-align: center;
+            flex: 1; //继承父容器的
+            color: #333;
+            border-top: 1rpx solid #f4f4f4;
+            border-bottom: 1rpx solid #f4f4f4;
+        }
+        div:nth-child(4){ //加入购物车
+            height: 100rpx;
+            line-height: 96rpx; //上间距+文字高+下间距
+            text-align: center;
+            flex: 1; //继承父容器的
+            color: #fff;
+            background: #b4282d;
+            border: 1rpx solid #bd282d;
+            float: left;//向左浮动
+        }
+    }
+}

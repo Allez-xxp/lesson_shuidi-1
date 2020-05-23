@@ -66,4 +66,10 @@ react-app-rewired //就是重新设置一下
     "start": "react-app-rewired start",
 
 然后重启之前的那个start:main
+然后去
+
+    "start": "SET BROWSER=true react-app-rewired start",
+不在浏览器端打开，（mac前面不加SET）,只在窗体中显示
+    "start": "SET BROWSER=none&&react-app-rewired start",
+    记得不能有空格
 

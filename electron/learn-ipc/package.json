@@ -1,0 +1,17 @@
+{
+  "name": "learn-ipc",
+  "version": "1.0.0",
+  "description": "ipc 进程间通信\r 之前的electron_control中\r 分成两部分：1. renderer渲染进程，背后用electron架构决定的，2.main目录，主进程，跟nativeapi进行交流，把electron走向桌面端开发。",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "devtron": "^1.4.0",
+    "electron": "^4.0.1",
+    "electron-reload": "^1.4.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

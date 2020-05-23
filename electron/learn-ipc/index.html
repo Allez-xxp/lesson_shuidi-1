@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>hello</h1>
+    <script>
+        // 负责进程间的渲染，渲染进程负责渲染，也就是我们的页面
+        const { ipcRenderer } = require('electron'); //他会在node端运行，所以这里用require
+        // html运行在chromium中，以文件的方式来运行的
+
+        var events = require('events');
+        console.log(ipcRenderer instanceof events.EventEmitter, '-------')
+
+        // 向main发送请求
+        // 订阅发布之模式send机制
+        // msg_name可以发送自定义事件，msg_obj 发送一个消息，把一个对象传过去
+        // 然后通过IPC这个模块发到main
+        ipcRenderer.send('greet', {
+            message: 'hello main ~'
+        })
+
+        ipcRenderer.on('greet', (event, args) => {
+            console.log(args);
+        })
+    </script>
+</body>
+</html>

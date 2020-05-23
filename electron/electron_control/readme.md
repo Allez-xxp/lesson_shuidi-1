@@ -6,3 +6,15 @@ react-app-rewired //就是重新设置一下
 然后再在根目录下
 
 用view/togo-development可以打开窗口的控制台
+
+## 再来
+来到main/index.js
+
+去ipc.js封装
+index.js中使用ready的时候使用？
+
+renderer/src/App.js
+ipc.js中console.log了
+可以在终端中看到
+
+在ipc.js中把他变成复制操作 成功
